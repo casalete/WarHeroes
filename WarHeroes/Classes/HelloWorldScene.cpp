@@ -5,6 +5,8 @@
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
+using namespace cocos2d::ui;
+
 
 Scene* HelloWorld::createScene()
 {
@@ -35,5 +37,21 @@ bool HelloWorld::init()
 
     addChild(rootNode);
 
+	// BUTON PLAY
+	Menu *menu = Menu::create();
+	Sprite *playSprite = Sprite::create("btnPlay.png");
+	MenuItemSprite* btnPlay = MenuItemSprite::create(playSprite, playSprite, playSprite, this, static_cast<cocos2d::SEL_MenuHandler>(&HelloWorld::Play));
+	btnPlay->setVisible(true);
+	menu->addChild(btnPlay);
+	addChild(menu);
+	menu->setPositionX(100.0);
+	menu->setPositionY(100.0);
+
+	
+
     return true;
+}
+void HelloWorld::Play(Ref *ref)
+{
+	
 }
