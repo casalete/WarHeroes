@@ -27,12 +27,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::createWithRect("WarHeroes", Rect(0, 0, 960, 640));
+		glview = GLViewImpl::createWithRect("WarHeroes", Rect(0, 0, 1600, 900));
+		//glview = GLViewImpl::createWithRect("WarHeroes", Rect(0, 0, 960, 640));
         director->setOpenGLView(glview);
     }
 
-    director->getOpenGLView()->setDesignResolutionSize(960, 640, ResolutionPolicy::SHOW_ALL);
-
+  //  director->getOpenGLView()->setDesignResolutionSize(960, 640, ResolutionPolicy::SHOW_ALL);
+	director->getOpenGLView()->setDesignResolutionSize(1600, 900, ResolutionPolicy::SHOW_ALL);
     // turn on display FPS
     director->setDisplayStats(true);
 

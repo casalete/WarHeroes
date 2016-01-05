@@ -9,5 +9,6 @@ class GameScene : public cocos2d::Layer
 	CREATE_FUNC(GameScene);
 };
 
+ 
 
 #endif

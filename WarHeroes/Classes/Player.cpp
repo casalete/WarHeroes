@@ -10,14 +10,14 @@ void Player::init()
 	mana = 0;
 	gold = 0;
 	heroHP = 30;
-	villagers = 1;
+	workers = 1;
 	deckShuffler();
 	drawCards(5);
 }
 void Player::deckShuffler()
 {
-	// TODO
-	int i = 0;
+	
+	
 	std::vector<int> CustomDeck = getPlayerDeck();
 	while (CustomDeck.size())
 	{
@@ -49,7 +49,7 @@ void Player::placeVillager(int job)
 
 		monastery++;
 	}
-	villagers--;
+	workers--;
 	
 }
 void Player::loseHP(int dHP)
@@ -74,5 +74,5 @@ void Player::startTurn()
 }
 std::vector<int> Player::getPlayerDeck()
 {
-
-}
+	return{ };
+}  
