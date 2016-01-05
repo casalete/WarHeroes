@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
+#include "DeckBuilder.h"
 
 USING_NS_CC;
 
@@ -33,9 +34,15 @@ bool HelloWorld::init()
         return false;
     }
     
-    auto rootNode = CSLoader::createNode("MainScene.csb");
+    //auto rootNode = CSLoader::createNode("MainScene.csb");
+	
+	Sprite *backgroundSprite = Sprite::create("castleWallpaper.jpg");
+    addChild(backgroundSprite);
 
-    addChild(rootNode);
+	cocos2d::Size winsize = Director::getInstance()->getWinSize();
+	backgroundSprite->setScaleX(winsize.width / backgroundSprite->getContentSize().width);
+	backgroundSprite->setScaleY(winsize.height / backgroundSprite->getContentSize().height);
+	backgroundSprite->setPosition(winsize.width / 2.0, winsize.height / 2.0);
 
 	// BUTON PLAY
 	Menu *menu = Menu::create();
@@ -53,5 +60,6 @@ bool HelloWorld::init()
 }
 void HelloWorld::Play(Ref *ref)
 {
-	
+	Scene* newScene = DeckBuilder::createScene();
+	Director::getInstance()->replaceScene(newScene);
 }

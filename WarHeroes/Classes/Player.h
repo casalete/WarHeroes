@@ -10,7 +10,7 @@ class Player
 	int gold;
 	int mana;
 	int heroHP;
-	int villagers;
+	int workers;
 	int mine;
 	int monastery;
 	
