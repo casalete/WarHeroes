@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Deck.h"
 USING_NS_CC;
 
 using namespace cocos2d::ui;
@@ -16,10 +17,16 @@ void Player::init()
 void Player::deckShuffler()
 {
 	// TODO
+	int i = 0;
 	std::vector<int> CustomDeck = getPlayerDeck();
-
-	random() % CustomDeck.size();
-	shuffledDeck.push_back;
+	while (CustomDeck.size())
+	{
+		int	x = random() % CustomDeck.size();
+		shuffledDeck.push_back(CustomDeck[x]);
+		CustomDeck.erase(CustomDeck.begin() + x);
+		
+	}
+	
 }
 void Player::drawCards(int nrCards)
 {
