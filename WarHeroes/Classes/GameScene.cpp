@@ -28,4 +28,8 @@ bool GameScene::init()
 		return false;
 	}
 	
+
+
+
+	return true;
 }
