@@ -13,6 +13,8 @@ public:
 
 	static cocos2d::Scene* createScene();
 	virtual bool init();
+	void NextPage(Ref *);
+	void PreviousPage(Ref *);
 	CREATE_FUNC(DeckBuilder);
 };
 

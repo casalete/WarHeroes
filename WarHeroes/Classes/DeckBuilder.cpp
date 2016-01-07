@@ -42,5 +42,37 @@ bool DeckBuilder::init()
 	backgroundSprite->setScaleY(winsize.height / backgroundSprite->getContentSize().height);
 	backgroundSprite->setPosition(winsize.width / 2.0, winsize.height / 2.0);
 
+
+	//Buttons (next & previous)
+
+	Menu *menu = Menu::create();
+	Sprite *nextSprite = Sprite::create("nextBtn.png");
+	MenuItemSprite* btnNext = MenuItemSprite::create(nextSprite, nextSprite, nextSprite, this, static_cast<cocos2d::SEL_MenuHandler>(&DeckBuilder::NextPage));
+	btnNext->setVisible(true);
+	menu->addChild(btnNext);
+	addChild(menu);
+	btnNext->setPositionX((winsize.width / 2) - (nextSprite->getContentSize().width)/3);
+	
+
+
+	Sprite *prevSprite = Sprite::create("prevBtn.png");
+	MenuItemSprite* btnPrev = MenuItemSprite::create(prevSprite, prevSprite, prevSprite, this, static_cast<cocos2d::SEL_MenuHandler>(&DeckBuilder::PreviousPage));
+	btnPrev->setVisible(true);
+	menu->addChild(btnPrev);
+	btnPrev->setPositionX(-(winsize.width / 2) + (prevSprite->getContentSize().width)/3);
+	
+
+
+
+
 	return true;
+
+}
+void DeckBuilder::NextPage(Ref *ref)
+{
+
+}
+void DeckBuilder::PreviousPage(Ref *ref)
+{
+
 }
