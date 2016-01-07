@@ -6,7 +6,7 @@
 
 
 
- using namespace cocos2d::ui;
+using namespace cocos2d::ui;
 using namespace cocos2d;
 
 
@@ -41,6 +41,7 @@ bool DeckBuilder::init()
 	backgroundSprite->setScaleX(winsize.width / backgroundSprite->getContentSize().width);
 	backgroundSprite->setScaleY(winsize.height / backgroundSprite->getContentSize().height);
 	backgroundSprite->setPosition(winsize.width / 2.0, winsize.height / 2.0);
+
 
 	//Buttons (next & previous)
 
