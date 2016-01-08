@@ -26,9 +26,6 @@ class Player
 	void startTurn();
 	std::vector<int> getPlayerDeck();
 	
-
-	
-
 };
 
 

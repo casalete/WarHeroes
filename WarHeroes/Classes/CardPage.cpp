@@ -45,7 +45,8 @@ bool CardPage::init()
 	{
 		//creating the card
 		char str[15];
-		sprintf(str, "card%d.png", /*pageNumber * 8 +*/ i);
+		sprintf(str, "card%d.png", (pageNumber * 8 + i) % 24);
+		//sprintf(str, "card%d.png", /*pageNumber * 8 +*/ i); // the line above is for debug
 		Sprite *card = Sprite::create(str);
 		card->setPosition(Vec2(winsize.width / 2 + ((i%4) - 1.5) * card->getContentSize().width * 1.5, winsize.height / 2 + (0.5 - (i/4)) * card->getContentSize().height * 1.1));
 		card->setTag(i);
@@ -60,7 +61,7 @@ bool CardPage::init()
 		menu->setPosition(Vec2(-btnPlus->getContentSize().width / 2, card->getContentSize().height / 2));
 		card->addChild(menu, 1);
 
-		Label* nrDuplicate = Label::createWithTTF("0", "ITCKRIST.TTF", 24);
+		Label* nrDuplicate = Label::createWithTTF("0", "ITCKRIST.TTF", 30);
 		nrDuplicate->setPosition(Vec2(-btnPlus->getContentSize().width / 2, card->getContentSize().height / 2));
 		nrDuplicate->setTag(7);
 		card->addChild(nrDuplicate);

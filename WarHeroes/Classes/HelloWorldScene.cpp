@@ -49,6 +49,7 @@ bool HelloWorld::init()
 	Sprite *playSprite = Sprite::create("btnPlay.png");
 	MenuItemSprite* btnPlay = MenuItemSprite::create(playSprite, playSprite, playSprite, this, menu_selector(HelloWorld::Play));
 	btnPlay->setVisible(true);
+	btnPlay->setScale(3); // ca sa pot sa te vad mai bine!
 	menu->addChild(btnPlay);
 	addChild(menu);
 	menu->setPositionX(100.0);
