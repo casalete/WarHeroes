@@ -11,7 +11,10 @@ private:
 	CardPage(int i) : Layer(), pageNumber(i){};
 public:
 	virtual bool init();
-	static CardPage* create(int i);
+	static CardPage* create(int);
+	void addCardToDeck(Ref*, int);
+	void removeCardFromDeck(Ref*, int);
+	void initTextLabels();
 };
 
 

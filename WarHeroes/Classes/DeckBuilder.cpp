@@ -5,6 +5,9 @@
 using namespace cocos2d::ui;
 using namespace cocos2d;
 
+const int maxDuplicateCards = 4;
+const int maxCards = 40;
+
 Scene* DeckBuilder::createScene()
 {
 	// 'scene' is an autorelease object
@@ -36,34 +39,50 @@ bool DeckBuilder::init()
 	backgroundSprite->setScaleY(winsize.height / backgroundSprite->getContentSize().height);
 	backgroundSprite->setPosition(winsize.width / 2.0, winsize.height / 2.0);
 
+	//init cardsInDeck
+	for (int i = 0; i < NOCARD; ++i)
+	{
+		cardsInDeck[i] = 0;
+	}
+	
+
 	//Buttons (next & previous)
 
 	Menu *menu = Menu::create();
 	addChild(menu);
 
 	Sprite *nextSprite = Sprite::create("nextBtn.png");
-	MenuItemSprite* btnNext = MenuItemSprite::create(nextSprite, nextSprite, nextSprite, this, static_cast<cocos2d::SEL_MenuHandler>(&DeckBuilder::NextPage));
+	MenuItemSprite* btnNext = MenuItemSprite::create(nextSprite, nextSprite, nextSprite, this, menu_selector(DeckBuilder::NextPage));
 	btnNext->setVisible(true);
 	btnNext->setPositionX((winsize.width / 2) - (nextSprite->getContentSize().width)/3);
 	menu->addChild(btnNext);
 	
 	Sprite *prevSprite = Sprite::create("prevBtn.png");
-	MenuItemSprite* btnPrev = MenuItemSprite::create(prevSprite, prevSprite, prevSprite, this, static_cast<cocos2d::SEL_MenuHandler>(&DeckBuilder::PreviousPage));
+	MenuItemSprite* btnPrev = MenuItemSprite::create(prevSprite, prevSprite, prevSprite, this, menu_selector(DeckBuilder::PreviousPage));
 	btnPrev->setVisible(true);
 	btnPrev->setPositionX(-(winsize.width / 2) + (prevSprite->getContentSize().width)/3);
 	menu->addChild(btnPrev);
 
+	char str[8];
+	sprintf(str, "%d/%d", cardsSelected = 0, maxCards);
+	Label* deckNr = Label::createWithTTF(str, "ITCKRIST.TTF", 40);
+	deckNr->setPosition(Vec2(winsize.width / 2, winsize.height - prevSprite->getContentSize().height / 3));
+	deckNr->setTag(7);
+	addChild(deckNr);
+
 	pageNumber = 0;
-	previousPage = NULL;
+	previousPage = CardPage::create(-1);
 	curentPage = CardPage::create(0);
 	nextPage = CardPage::create(1);
 	addChild(curentPage);
+	curentPage->initTextLabels();
 	if (nextPage)
 	{
 		nextPage->setPositionX(winsize.width);
 		addChild(nextPage);
+		nextPage->initTextLabels();
 	}
-	
+
 	return true;
 }
 void DeckBuilder::NextPage(Ref *ref)
@@ -83,6 +102,7 @@ void DeckBuilder::NextPage(Ref *ref)
 	{
 		nextPage->setPosition(Vec2(winsize.width, 0));
 		curentPage->getParent()->addChild(nextPage);
+		nextPage->initTextLabels();
 	}
 
 	previousPage->runAction(MoveTo::create(0.5, Vec2(-winsize.width, 0)));
@@ -105,10 +125,32 @@ void DeckBuilder::PreviousPage(Ref *ref)
 	{
 		previousPage->setPosition(Vec2(-winsize.width, 0));
 		curentPage->getParent()->addChild(previousPage);
-
+		previousPage->initTextLabels();
 	}
 
 	nextPage->runAction(MoveTo::create(0.5, Vec2(winsize.width, 0)));
 	curentPage->runAction(MoveTo::create(0.5, Vec2(0, 0)));
 
+}
+
+int DeckBuilder::modifyCardOccurrence(int ID, int di)
+{
+	int newCardNo = cardsInDeck[ID] + di;
+	
+	if ((cardsSelected + di > maxCards) || (newCardNo > maxDuplicateCards) || (newCardNo < 0))
+	{
+		return cardsInDeck[ID];
+	}
+
+	char str[8];
+	cardsSelected += di;
+	sprintf(str, "%d/%d", cardsSelected, maxCards);
+	((Label*)(getChildByTag(7)))->setString(str);
+
+	return (cardsInDeck[ID] = newCardNo);
+}
+
+int DeckBuilder::getCardOccurrence(int ID)
+{
+	return cardsInDeck[ID];
 }

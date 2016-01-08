@@ -47,14 +47,12 @@ bool HelloWorld::init()
 	// BUTON PLAY
 	Menu *menu = Menu::create();
 	Sprite *playSprite = Sprite::create("btnPlay.png");
-	MenuItemSprite* btnPlay = MenuItemSprite::create(playSprite, playSprite, playSprite, this, static_cast<cocos2d::SEL_MenuHandler>(&HelloWorld::Play));
+	MenuItemSprite* btnPlay = MenuItemSprite::create(playSprite, playSprite, playSprite, this, menu_selector(HelloWorld::Play));
 	btnPlay->setVisible(true);
 	menu->addChild(btnPlay);
 	addChild(menu);
 	menu->setPositionX(100.0);
 	menu->setPositionY(100.0);
-
-	
 
     return true;
 }
