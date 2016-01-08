@@ -36,7 +36,7 @@ bool HelloWorld::init()
     
     //auto rootNode = CSLoader::createNode("MainScene.csb");
 	
-	Sprite *backgroundSprite = Sprite::create("castleWallpaper.jpg");
+	Sprite *backgroundSprite = Sprite::create("HomeScene.png");
     addChild(backgroundSprite);
 
 	cocos2d::Size winsize = Director::getInstance()->getWinSize();
@@ -46,18 +46,18 @@ bool HelloWorld::init()
 
 	// BUTON PLAY
 	Menu *menu = Menu::create();
-	Sprite *playSprite = Sprite::create("btnPlay.png");
-	MenuItemSprite* btnPlay = MenuItemSprite::create(playSprite, playSprite, playSprite, this, menu_selector(HelloWorld::Play));
+	Sprite *deckBuilder = Sprite::create("deckBuilderBtn.png");
+	MenuItemSprite* btnPlay = MenuItemSprite::create(deckBuilder, deckBuilder, deckBuilder, this, menu_selector(HelloWorld::deckBuilder));
 	btnPlay->setVisible(true);
-	btnPlay->setScale(3); // ca sa pot sa te vad mai bine!
+	//btnPlay->setScale(3); // ca sa pot sa te vad mai bine! no need am dioptriile 0
 	menu->addChild(btnPlay);
 	addChild(menu);
-	menu->setPositionX(100.0);
-	menu->setPositionY(100.0);
+	menu->setPositionX(btnPlay->getContentSize().width);
+	menu->setPositionY(winsize.height- btnPlay->getContentSize().height);
 
     return true;
 }
-void HelloWorld::Play(Ref *ref)
+void HelloWorld::deckBuilder(Ref *ref)
 {
 	Scene* newScene = DeckBuilder::createScene();
 	Director::getInstance()->replaceScene(newScene);
