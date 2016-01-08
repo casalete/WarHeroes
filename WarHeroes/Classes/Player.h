@@ -13,6 +13,7 @@ class Player
 	int workers;
 	int mine;
 	int monastery;
+	int playerID;
 	
 	//int gear
 
@@ -25,14 +26,10 @@ class Player
 	void endTurn();
 	void startTurn();
 	std::vector<int> getPlayerDeck();
+
+public:
+	Player(int);
 	
 };
-
-
-
-
-
-
-
 
 #endif

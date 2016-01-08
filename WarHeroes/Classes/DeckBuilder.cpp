@@ -14,13 +14,48 @@ Scene* DeckBuilder::createScene()
 	auto scene = Scene::create();
 
 	// 'layer' is an autorelease object
-	auto layer = DeckBuilder::create();
+	auto layer = DeckBuilder::create(1);
 
 	// add layer as a child to scene
 	scene->addChild(layer);
 
+	layer->createTwin();
 	// return the scene
 	return scene;
+}
+
+
+DeckBuilder* DeckBuilder::create(int i)
+{
+	if ((i < 0) || (i >((int)NOCARD) / 8))
+		return NULL;
+
+	DeckBuilder *pRet = new(std::nothrow) DeckBuilder(i);
+	if (pRet && pRet->init())
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = NULL;
+		return NULL;
+	}
+}
+
+void DeckBuilder::createTwin()
+{
+	cocos2d::Size winsize = Director::getInstance()->getWinSize();
+	twinLayer = DeckBuilder::create(2);
+	twinLayer->setTwin(this);
+	getParent()->addChild(twinLayer);
+	twinLayer->setPosition(Vec2(0, winsize.height));
+}
+
+void DeckBuilder::setTwin(DeckBuilder* twin)
+{
+	twinLayer = twin;
 }
 
 bool DeckBuilder::init()
@@ -63,7 +98,22 @@ bool DeckBuilder::init()
 	btnPrev->setPositionX(-(winsize.width / 2) + (prevSprite->getContentSize().width)/3);
 	menu->addChild(btnPrev);
 
-	char str[8];
+	Sprite *saveSprite = Sprite::create("btnSaveDeck.png");
+	MenuItemSprite* btnSave = MenuItemSprite::create(saveSprite, saveSprite, saveSprite, this, menu_selector(DeckBuilder::saveDeck));
+	btnSave->setVisible(true);
+	btnSave->setPositionY(-winsize.height / 2 + (saveSprite->getContentSize().height / 2));
+	btnSave->setPositionX(saveSprite->getContentSize().width * 0.75);
+	menu->addChild(btnSave);
+
+	char str[20];
+	sprintf(str, "btnSwitchToP%d.png", 3 - playerID);
+	Sprite *switchSprite = Sprite::create(str);
+	MenuItemSprite* btnSwitch = MenuItemSprite::create(switchSprite, switchSprite, switchSprite, this, menu_selector(DeckBuilder::switchPlayer));
+	btnSwitch->setVisible(true);
+	btnSwitch->setPositionY(-winsize.height / 2 + (switchSprite->getContentSize().height / 2));
+	btnSwitch->setPositionX(-switchSprite->getContentSize().width * 0.75);
+	menu->addChild(btnSwitch);
+
 	sprintf(str, "%d/%d", cardsSelected = 0, maxCards);
 	Label* deckNr = Label::createWithTTF(str, "ITCKRIST.TTF", 40);
 	deckNr->setPosition(Vec2(winsize.width / 2, winsize.height - prevSprite->getContentSize().height / 3));
@@ -153,4 +203,33 @@ int DeckBuilder::modifyCardOccurrence(int ID, int di)
 int DeckBuilder::getCardOccurrence(int ID)
 {
 	return cardsInDeck[ID];
+}
+
+void DeckBuilder::saveDeck(Ref *ref)
+{
+	char str[15];
+	sprintf(str, "Player%d.data", playerID);
+	char inputChar;
+
+	FILE * fin = fopen(str, "w");
+	for (int i = 0; i < NOCARD; ++i)
+	{
+		fprintf(fin, "%c", 'a' + cardsInDeck[i]);
+	}
+	fprintf(fin, "\n");
+	fclose(fin);
+}
+void DeckBuilder::switchPlayer(Ref *ref)
+{
+	cocos2d::Size winsize = Director::getInstance()->getWinSize();
+	if (playerID == 1)
+	{
+		runAction(MoveTo::create(0.5, Vec2(0, -winsize.height)));
+		twinLayer->runAction(MoveTo::create(0.5, Vec2(0, 0)));
+	}
+	else //if (playerID == 2)
+	{
+		runAction(MoveTo::create(0.5, Vec2(0, winsize.height)));
+		twinLayer->runAction(MoveTo::create(0.5, Vec2(0, 0)));
+	}
 }

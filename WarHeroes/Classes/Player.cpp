@@ -4,6 +4,10 @@ USING_NS_CC;
 
 using namespace cocos2d::ui;
 
+Player::Player(int ID) : playerID(ID)
+{
+
+}
 
 void Player::init()
 {
@@ -16,15 +20,12 @@ void Player::init()
 }
 void Player::deckShuffler()
 {
-	
-	
 	std::vector<int> CustomDeck = getPlayerDeck();
 	while (CustomDeck.size())
 	{
 		int	x = random() % CustomDeck.size();
 		shuffledDeck.push_back(CustomDeck[x]);
 		CustomDeck.erase(CustomDeck.begin() + x);
-		
 	}
 	
 }
@@ -74,5 +75,24 @@ void Player::startTurn()
 }
 std::vector<int> Player::getPlayerDeck()
 {
-	return{ };
+	std::vector<int> deck;
+
+	char str[15];
+	sprintf(str, "Player%d.data", playerID);
+
+	char inputChar;
+
+	FILE * fin = fopen(str, "r");
+	if (fin)
+	for (int i = 0; i < NOCARD; ++i)
+	{
+		fscanf(fin, "%c", &inputChar);
+		while (inputChar > 'a')
+		{
+			deck.push_back(i);
+			--inputChar;
+		}
+	}
+	fclose(fin);
+	return deck;
 }  

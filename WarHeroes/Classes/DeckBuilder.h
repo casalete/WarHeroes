@@ -15,15 +15,25 @@ private:
 	int pageNumber;
 	int cardsInDeck[(int)NOCARD];
 	int cardsSelected;
+
+	int playerID;
+	DeckBuilder* twinLayer;
+	DeckBuilder(int i) : Layer(), playerID(i){};
 public:
 	int modifyCardOccurrence(int, int);
 	int getCardOccurrence(int);
 
 	static cocos2d::Scene* createScene();
-	virtual bool init();
 	void NextPage(Ref *);
 	void PreviousPage(Ref *);
-	CREATE_FUNC(DeckBuilder);
+	void saveDeck(Ref *);
+	void switchPlayer(Ref *);
+
+	static DeckBuilder* create(int);
+	void createTwin();
+	void setTwin(DeckBuilder*);
+	virtual bool init();
+
 };
 
 #endif
