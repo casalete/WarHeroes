@@ -87,7 +87,7 @@ std::vector<int> Player::getPlayerDeck()
 	for (int i = 0; i < NOCARD; ++i)
 	{
 		fscanf(fin, "%c", &inputChar);
-		while (inputChar > 'a')
+		while (inputChar > '0')
 		{
 			deck.push_back(i);
 			--inputChar;

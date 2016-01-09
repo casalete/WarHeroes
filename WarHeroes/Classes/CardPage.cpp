@@ -48,7 +48,7 @@ bool CardPage::init()
 		sprintf(str, "card%d.png", (pageNumber * 8 + i) % 24);
 		//sprintf(str, "card%d.png", /*pageNumber * 8 +*/ i); // the line above is for debug
 		Sprite *card = Sprite::create(str);
-		card->setPosition(Vec2(winsize.width / 2 + ((i%4) - 1.5) * card->getContentSize().width * 1.5, winsize.height / 2 + (0.5 - (i/4)) * card->getContentSize().height * 1.1));
+		card->setPosition(Vec2(winsize.width / 2 + ((i%4) - 1.5) * card->getContentSize().width * 1.5, winsize.height / 2 + (0.6 - (i/4)) * card->getContentSize().height * 1.1));
 		card->setTag(i);
 		addChild(card);
 

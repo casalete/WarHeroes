@@ -51,7 +51,7 @@ void DeckBuilder::createTwin()
 	twinLayer = DeckBuilder::create(2);
 	twinLayer->setTwin(this);
 	getParent()->addChild(twinLayer);
-	twinLayer->setPosition(Vec2(0, winsize.height));
+	twinLayer->setPosition(Vec2(0, -winsize.height));
 }
 
 void DeckBuilder::setTwin(DeckBuilder* twin)
@@ -97,7 +97,7 @@ bool DeckBuilder::init()
 	MenuItemSprite* btnBack = MenuItemSprite::create(backSprite, backSprite, backSprite, this, menu_selector(DeckBuilder::HomeScene));
 	btnBack->setVisible(true);
 	btnBack->setPositionX((-winsize.width/2)+(backSprite->getContentSize().width));
-	btnBack->setPositionY((winsize.height/2)-(backSprite->getContentSize().height/2));
+	btnBack->setPositionY((-winsize.height/2)+(backSprite->getContentSize().height/2));
 	menu->addChild(btnBack);
 	
 	Sprite *prevSprite = Sprite::create("prevBtn.png");
@@ -127,6 +127,8 @@ bool DeckBuilder::init()
 	deckNr->setPosition(Vec2(winsize.width / 2, winsize.height - prevSprite->getContentSize().height / 3));
 	deckNr->setTag(7);
 	addChild(deckNr);
+
+	loadDeck();
 
 	pageNumber = 0;
 	previousPage = CardPage::create(-1);
@@ -219,25 +221,49 @@ void DeckBuilder::saveDeck(Ref *ref)
 	sprintf(str, "Player%d.data", playerID);
 	char inputChar;
 
-	FILE * fin = fopen(str, "w");
+	FILE * fout = fopen(str, "w");
 	for (int i = 0; i < NOCARD; ++i)
 	{
-		fprintf(fin, "%c", 'a' + cardsInDeck[i]);
+		fprintf(fout, "%d", cardsInDeck[i]);
 	}
-	fprintf(fin, "\n");
-	fclose(fin);
+	fprintf(fout, "\n");
+	fclose(fout);
+}
+
+void DeckBuilder::loadDeck()
+{
+	char str[15];
+	sprintf(str, "Player%d.data", playerID);
+	char inputChar;
+
+	FILE * fin = fopen(str, "r");
+	if (fin)
+	{
+		for (int i = 0; i < NOCARD; ++i)
+		{
+			fscanf(fin, "%c", &inputChar);
+			inputChar -= '0';
+			cardsInDeck[i] = inputChar;
+			cardsSelected += inputChar;
+		}
+		fprintf(fin, "\n");
+		fclose(fin);
+
+		sprintf(str, "%d/%d", cardsSelected, maxCards);
+		((Label*)(getChildByTag(7)))->setString(str);
+	}
 }
 void DeckBuilder::switchPlayer(Ref *ref)
 {
 	cocos2d::Size winsize = Director::getInstance()->getWinSize();
 	if (playerID == 1)
 	{
-		runAction(MoveTo::create(0.5, Vec2(0, -winsize.height)));
+		runAction(MoveTo::create(0.5, Vec2(0, winsize.height)));
 		twinLayer->runAction(MoveTo::create(0.5, Vec2(0, 0)));
 	}
 	else //if (playerID == 2)
 	{
-		runAction(MoveTo::create(0.5, Vec2(0, winsize.height)));
+		runAction(MoveTo::create(0.5, Vec2(0, -winsize.height)));
 		twinLayer->runAction(MoveTo::create(0.5, Vec2(0, 0)));
 	}
 }

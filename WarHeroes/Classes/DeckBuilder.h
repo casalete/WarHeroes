@@ -27,6 +27,7 @@ public:
 	void NextPage(Ref *);
 	void PreviousPage(Ref *);
 	void saveDeck(Ref *);
+	void loadDeck();
 	void switchPlayer(Ref *);
 	void HomeScene(Ref *);
 
