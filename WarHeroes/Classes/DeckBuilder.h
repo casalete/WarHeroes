@@ -28,6 +28,7 @@ public:
 	void PreviousPage(Ref *);
 	void saveDeck(Ref *);
 	void switchPlayer(Ref *);
+	void HomeScene(Ref *);
 
 	static DeckBuilder* create(int);
 	void createTwin();

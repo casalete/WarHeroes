@@ -1,6 +1,7 @@
 #include "Deck.h"
 #include "DeckBuilder.h"
 #include "cocos2d.h"
+#include "HelloWorldScene.h"
 
 using namespace cocos2d::ui;
 using namespace cocos2d;
@@ -91,6 +92,13 @@ bool DeckBuilder::init()
 	btnNext->setVisible(true);
 	btnNext->setPositionX((winsize.width / 2) - (nextSprite->getContentSize().width)/3);
 	menu->addChild(btnNext);
+
+	Sprite *backSprite = Sprite::create("btnBack.png");
+	MenuItemSprite* btnBack = MenuItemSprite::create(backSprite, backSprite, backSprite, this, menu_selector(DeckBuilder::HomeScene));
+	btnBack->setVisible(true);
+	btnBack->setPositionX((-winsize.width/2)+(backSprite->getContentSize().width));
+	btnBack->setPositionY((winsize.height/2)-(backSprite->getContentSize().height/2));
+	menu->addChild(btnBack);
 	
 	Sprite *prevSprite = Sprite::create("prevBtn.png");
 	MenuItemSprite* btnPrev = MenuItemSprite::create(prevSprite, prevSprite, prevSprite, this, menu_selector(DeckBuilder::PreviousPage));
@@ -232,4 +240,9 @@ void DeckBuilder::switchPlayer(Ref *ref)
 		runAction(MoveTo::create(0.5, Vec2(0, winsize.height)));
 		twinLayer->runAction(MoveTo::create(0.5, Vec2(0, 0)));
 	}
+}
+void DeckBuilder::HomeScene(Ref* ref)
+{
+	Scene* newScene = HelloWorld::createScene();
+	Director::getInstance()->replaceScene(newScene);
 }
