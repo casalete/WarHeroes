@@ -27,8 +27,11 @@ bool GameScene::init()
 	{
 		return false;
 	}
-	
 
+	cocos2d::Size winsize = Director::getInstance()->getWinSize();
+
+	battlefieldLayer = Layer::create(); 
+	battlefieldLayer->setPosition(Vec2((winsize.width * 3.0) / 5.0, (winsize.height * 9.0) / 20.0));
 
 
 	return true;

@@ -6,13 +6,6 @@
 class HelloWorld : public cocos2d::Layer
 {
 public:
-	
-	//VARIABILE
-
-
-
-	//FUNCTII
-
 	void deckBuilder(Ref *);
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
