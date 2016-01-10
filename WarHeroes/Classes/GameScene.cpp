@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "Player.h"
 USING_NS_CC;
 
 
@@ -29,9 +30,15 @@ bool GameScene::init()
 	}
 
 	cocos2d::Size winsize = Director::getInstance()->getWinSize();
+	
+	Sprite *backgroundSprite = Sprite::create("Battlefield.png");
+	addChild(backgroundSprite);
+	backgroundSprite->setPosition(Vec2(winsize.width / 2 , winsize.height/2));
 
 	battlefieldLayer = Layer::create(); 
 	battlefieldLayer->setPosition(Vec2((winsize.width * 3.0) / 5.0, (winsize.height * 9.0) / 20.0));
+	
+	
 
 
 	return true;

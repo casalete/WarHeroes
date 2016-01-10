@@ -2,6 +2,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 #include "DeckBuilder.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -44,16 +45,25 @@ bool HelloWorld::init()
 	backgroundSprite->setScaleY(winsize.height / backgroundSprite->getContentSize().height);
 	backgroundSprite->setPosition(winsize.width / 2.0, winsize.height / 2.0);
 
-	// BUTON PLAY
+	// BUTTONS
 	Menu *menu = Menu::create();
 	Sprite *deckBuilder = Sprite::create("deckBuilderBtn.png");
-	MenuItemSprite* btnPlay = MenuItemSprite::create(deckBuilder, deckBuilder, deckBuilder, this, menu_selector(HelloWorld::deckBuilder));
+	MenuItemSprite* btnDeck = MenuItemSprite::create(deckBuilder, deckBuilder, deckBuilder, this, menu_selector(HelloWorld::deckBuilder));
+	btnDeck->setVisible(true);
+	//btnPlay->setScale(3); // ca sa pot sa te vad mai bine! no need am dioptriile 0
+	menu->addChild(btnDeck);
+	addChild(menu);
+	menu->setPositionX(btnDeck->getContentSize().width);
+	menu->setPositionY(winsize.height- btnDeck->getContentSize().height);
+
+	Sprite *PlayBtn = Sprite::create("btnPlay.png");
+	MenuItemSprite* btnPlay = MenuItemSprite::create(PlayBtn, PlayBtn, PlayBtn, this, menu_selector(HelloWorld::Play));
 	btnPlay->setVisible(true);
 	//btnPlay->setScale(3); // ca sa pot sa te vad mai bine! no need am dioptriile 0
 	menu->addChild(btnPlay);
 	addChild(menu);
-	menu->setPositionX(btnPlay->getContentSize().width);
-	menu->setPositionY(winsize.height- btnPlay->getContentSize().height);
+	//btnPlay->setPositionX(btnDeck->getContentSize().width);
+	btnPlay->setPositionY(- btnDeck->getContentSize().height -20.0 -btnPlay->getContentSize().height);
 
     return true;
 }
@@ -62,3 +72,9 @@ void HelloWorld::deckBuilder(Ref *ref)
 	Scene* newScene = DeckBuilder::createScene();
 	Director::getInstance()->replaceScene(newScene);
 }
+void HelloWorld::Play(Ref *ref)
+{
+	Scene* newScene = GameScene::createScene();
+	Director::getInstance()->replaceScene(newScene);
+}
+

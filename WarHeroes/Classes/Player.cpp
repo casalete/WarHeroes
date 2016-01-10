@@ -9,7 +9,7 @@ Player::Player(int ID) : playerID(ID)
 
 }
 
-void Player::init()
+void Player::Initialize()
 {
 	mana = 0;
 	gold = 0;

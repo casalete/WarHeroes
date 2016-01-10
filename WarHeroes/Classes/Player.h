@@ -17,7 +17,7 @@ class Player
 	
 	//int gear
 
-	void init();
+	void Initialize();
 	void deckShuffler();
 	void drawCards(int);
 	void placeVillager(int);
