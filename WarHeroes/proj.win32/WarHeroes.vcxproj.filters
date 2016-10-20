@@ -21,19 +21,19 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Player.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Card.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CardPage.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\DeckBuilder.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\CardPage.cpp">
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,22 +47,22 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameScene.h">
+    <ClInclude Include="..\Classes\Card.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Player.h">
+    <ClInclude Include="..\Classes\CardPage.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Deck.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Card.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\DeckBuilder.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\CardPage.h">
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

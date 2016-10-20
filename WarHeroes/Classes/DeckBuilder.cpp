@@ -87,44 +87,49 @@ bool DeckBuilder::init()
 	Menu *menu = Menu::create();
 	addChild(menu);
 
-	Sprite *nextSprite = Sprite::create("nextBtn.png");
-	MenuItemSprite* btnNext = MenuItemSprite::create(nextSprite, nextSprite, nextSprite, this, menu_selector(DeckBuilder::NextPage));
+	//Sprite *nextSprite = Sprite::create("nextBtn.png");
+	MenuItemImage *btnNext = MenuItemImage::create("nextBtn.png", "nextBtn.png", "nextBtn.png", CC_CALLBACK_1(DeckBuilder::NextPage, this));
+	//MenuItemSprite* btnNext = MenuItemSprite::create(nextSprite, nextSprite, nextSprite, this, menu_selector(DeckBuilder::NextPage));
 	btnNext->setVisible(true);
-	btnNext->setPositionX((winsize.width / 2) - (nextSprite->getContentSize().width)/3);
+	btnNext->setPositionX((winsize.width / 2) - (btnNext->getContentSize().width)/3);
 	menu->addChild(btnNext);
 
-	Sprite *backSprite = Sprite::create("btnBack.png");
-	MenuItemSprite* btnBack = MenuItemSprite::create(backSprite, backSprite, backSprite, this, menu_selector(DeckBuilder::HomeScene));
+	//Sprite *backSprite = Sprite::create("btnBack.png");
+	MenuItemImage *btnBack = MenuItemImage::create("btnBack.png", "btnBack.png", "btnBack.png", CC_CALLBACK_1(DeckBuilder::HomeScene, this));
+	//MenuItemSprite* btnBack = MenuItemSprite::create(backSprite, backSprite, backSprite, this, menu_selector(DeckBuilder::HomeScene));
 	btnBack->setVisible(true);
-	btnBack->setPositionX((-winsize.width/2)+(backSprite->getContentSize().width));
-	btnBack->setPositionY((-winsize.height/2)+(backSprite->getContentSize().height/2));
+	btnBack->setPositionX((-winsize.width/2)+(btnBack->getContentSize().width));
+	btnBack->setPositionY((-winsize.height/2)+(btnBack->getContentSize().height/2));
 	menu->addChild(btnBack);
 	
-	Sprite *prevSprite = Sprite::create("prevBtn.png");
-	MenuItemSprite* btnPrev = MenuItemSprite::create(prevSprite, prevSprite, prevSprite, this, menu_selector(DeckBuilder::PreviousPage));
+	//Sprite *prevSprite = Sprite::create("prevBtn.png");
+	MenuItemImage *btnPrev = MenuItemImage::create("prevBtn.png", "prevBtn.png", "prevBtn.png", CC_CALLBACK_1(DeckBuilder::PreviousPage, this));
+	//MenuItemSprite* btnPrev = MenuItemSprite::create(prevSprite, prevSprite, prevSprite, this, menu_selector(DeckBuilder::PreviousPage));
 	btnPrev->setVisible(true);
-	btnPrev->setPositionX(-(winsize.width / 2) + (prevSprite->getContentSize().width)/3);
+	btnPrev->setPositionX(-(winsize.width / 2) + (btnPrev->getContentSize().width)/3);
 	menu->addChild(btnPrev);
 
-	Sprite *saveSprite = Sprite::create("btnSaveDeck.png");
-	MenuItemSprite* btnSave = MenuItemSprite::create(saveSprite, saveSprite, saveSprite, this, menu_selector(DeckBuilder::saveDeck));
+	//Sprite *saveSprite = Sprite::create("btnSaveDeck.png");
+	MenuItemImage *btnSave = MenuItemImage::create("btnSaveDeck.png", "btnSaveDeck.png", "btnSaveDeck.png", CC_CALLBACK_1(DeckBuilder::saveDeck, this));
+	//MenuItemSprite* btnSave = MenuItemSprite::create(saveSprite, saveSprite, saveSprite, this, menu_selector(DeckBuilder::saveDeck));
 	btnSave->setVisible(true);
-	btnSave->setPositionY(-winsize.height / 2 + (saveSprite->getContentSize().height / 2));
-	btnSave->setPositionX(saveSprite->getContentSize().width * 0.75);
+	btnSave->setPositionY(-winsize.height / 2 + (btnSave->getContentSize().height / 2));
+	btnSave->setPositionX(btnSave->getContentSize().width * 0.75);
 	menu->addChild(btnSave);
 
 	char str[20];
 	sprintf(str, "btnSwitchToP%d.png", 3 - playerID);
-	Sprite *switchSprite = Sprite::create(str);
-	MenuItemSprite* btnSwitch = MenuItemSprite::create(switchSprite, switchSprite, switchSprite, this, menu_selector(DeckBuilder::switchPlayer));
+	//Sprite *switchSprite = Sprite::create(str);
+	MenuItemImage *btnSwitch = MenuItemImage::create(str, str, str, CC_CALLBACK_1(DeckBuilder::switchPlayer, this));
+	//MenuItemSprite* btnSwitch = MenuItemSprite::create(switchSprite, switchSprite, switchSprite, this, menu_selector(DeckBuilder::switchPlayer));
 	btnSwitch->setVisible(true);
-	btnSwitch->setPositionY(-winsize.height / 2 + (switchSprite->getContentSize().height / 2));
-	btnSwitch->setPositionX(-switchSprite->getContentSize().width * 0.75);
+	btnSwitch->setPositionY(-winsize.height / 2 + (btnSwitch->getContentSize().height / 2));
+	btnSwitch->setPositionX(-btnSwitch->getContentSize().width * 0.75);
 	menu->addChild(btnSwitch);
 
 	sprintf(str, "%d/%d", cardsSelected = 0, maxCards);
 	Label* deckNr = Label::createWithTTF(str, "ITCKRIST.TTF", 40);
-	deckNr->setPosition(Vec2(winsize.width / 2, winsize.height - prevSprite->getContentSize().height / 3));
+	deckNr->setPosition(Vec2(winsize.width / 2, winsize.height - btnPrev->getContentSize().height / 3));
 	deckNr->setTag(7);
 	addChild(deckNr);
 
@@ -219,7 +224,7 @@ void DeckBuilder::saveDeck(Ref *ref)
 {
 	char str[15];
 	sprintf(str, "Player%d.data", playerID);
-	char inputChar;
+	//char inputChar;
 
 	FILE * fout = fopen(str, "w");
 	for (int i = 0; i < NOCARD; ++i)

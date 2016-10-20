@@ -38,22 +38,22 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
-    <Import Project="$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\cocos\2d\cocos2dx.props" />
-    <Import Project="$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\cocos\2d\cocos2d_headers.props" />
+    <Import Project="cocos2dx.props" />
+    <Import Project="$(COCOS_X_ROOT)\cocos2d-x-3.10\cocos\2d\cocos2d_headers.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" />
-    <Import Project="$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\cocos\2d\cocos2dx.props" />
-    <Import Project="$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\cocos\2d\cocos2d_headers.props" />
+    <Import Project="cocos2dx.props" />
+    <Import Project="$(COCOS_X_ROOT)\cocos2d-x-3.10\cocos\2d\cocos2d_headers.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration).win32\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration).win32\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration).win32\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration).win32\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
@@ -71,7 +71,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\cocos\audio\include;$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\external;$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\external\chipmunk\include\chipmunk;$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(COCOS_X_ROOT)\cocos2d-x-3.10\cocos\audio\include;$(COCOS_X_ROOT)\cocos2d-x-3.10\external;$(COCOS_X_ROOT)\cocos2d-x-3.10\external\chipmunk\include\chipmunk;$(COCOS_X_ROOT)\cocos2d-x-3.10\extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -97,7 +97,7 @@
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy /Y /Q "$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(COCOS_X_ROOT)\cocos2d-x-3.10\prebuilt\win32\*.*" "$(OutDir)"
 </Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
@@ -114,7 +114,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\cocos\audio\include;$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\external;$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\external\chipmunk\include\chipmunk;$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(COCOS_X_ROOT)\cocos2d-x-3.10\cocos\audio\include;$(COCOS_X_ROOT)\cocos2d-x-3.10\external;$(COCOS_X_ROOT)\cocos2d-x-3.10\external\chipmunk\include\chipmunk;$(COCOS_X_ROOT)\cocos2d-x-3.10\extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -141,7 +141,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy /Y /Q "$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(COCOS_X_ROOT)\cocos2d-x-3.10\prebuilt\win32\*.*" "$(OutDir)"
 </Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
@@ -158,8 +158,8 @@ xcopy /Y /Q "$(COCOS_FRAMEWORKS)\cocos2d-x-3.8\prebuilt\win32\*.*" "$(OutDir)"
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Card.h" />
-    <ClInclude Include="..\Classes\Deck.h" />
     <ClInclude Include="..\Classes\CardPage.h" />
+    <ClInclude Include="..\Classes\Deck.h" />
     <ClInclude Include="..\Classes\DeckBuilder.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
