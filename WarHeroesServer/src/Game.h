@@ -6,16 +6,20 @@
 #include <WS2TCPIP.H>
 
 #include "Player.h"
+#include "Server.h"
 
 #define PORT "27015"
 
 class Game
 {
-	SOCKET serverDescriptor;
 	Player * player[2];
-	int setupSockets();
-	int acceptPlayers();
-	std::vector<int> parseDeck(const char*);
+	Server * _server;
+	//SOCKET serverDescriptor;
+	//int setupSockets();
+	//int acceptPlayers();
+	//std::vector<int> parseDeck(const char*);
+
+	int CLItesting();
 public:
 	void RunGame();
 	Game();

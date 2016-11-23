@@ -36,6 +36,12 @@
     <ClCompile Include="..\Classes\Player.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ServerConnection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\Common.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -53,9 +59,6 @@
     <ClInclude Include="..\Classes\CardPage.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Deck.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\DeckBuilder.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -63,6 +66,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Player.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ServerConnection.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\Common.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\Deck.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

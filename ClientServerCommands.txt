@@ -1,0 +1,23 @@
+Structura comenzi transmise intre client si server:
+$			marcheaza inceputul comenzii
+<code>		un caracter ce retine codul comenzii
+<Aditional info> 
+
+ex:
+$0|this is a test|;
+
+code	Explicaatie
+	info1	Explicatie
+		info2	Explicatie
+
+0		initializare conectie.
+1		Trimite deck la server(clientul nu are informatie despre starea deckului)
+2		GameStarts
+3		DrawCard 
+	0		Trage el carte
+	1		Trage adversarul carte
+		0		CardID0
+		1		CardID1
+		...
+4		
+200		Disconnect

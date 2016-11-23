@@ -33,6 +33,8 @@ class Player
 public:
 	Player(std::vector<int>*, SOCKET);
 	~Player();
+	int sendData(std::string&);
+	static Player * create(std::vector<int> * customDeck, SOCKET fd);
 };
 
 #endif // !_PLAYER__H_

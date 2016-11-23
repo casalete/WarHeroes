@@ -14,12 +14,13 @@ void startTUI()
 	while (keepGoing)
 	{
 		fscanf_s(stdin, "%c", &s);
-		if (s == 'y' || s ==	'Y')
+		if (s == 'y' || s == 'Y')
 		{ 
 			_game = new Game();
 			fprintf(stdout, "Game now starting!\n");
 			_game->RunGame();
 			delete _game;
+			fprintf(stdout, "Do you want to host another game?(y/n)\n");
 		}
 		else if (s == 'n' || s == 'N')
 		{

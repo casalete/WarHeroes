@@ -1,6 +1,8 @@
-#include "Deck.h"
 #include "Card.h"
+
+#include "Deck.h"
 #include <sstream>
+
 USING_NS_CC;
 
 using namespace cocos2d::ui;

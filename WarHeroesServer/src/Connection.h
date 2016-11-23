@@ -11,7 +11,7 @@ class Connection
 private:
 	SOCKET fileDescriptor;
 public:
-	std::string sendData(std::string);
+	int sendData(std::string);
 	Connection(SOCKET);
 	~Connection();
 };

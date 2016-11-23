@@ -19,18 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Common.cpp" />
+    <ClCompile Include="..\..\common\Common.cpp" />
     <ClCompile Include="..\src\Connection.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\WarHeroes\Classes\Deck.h" />
+    <ClInclude Include="..\..\common\Common.h" />
+    <ClInclude Include="..\..\common\Deck.h" />
     <ClInclude Include="..\src\Connection.h" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\Player.h" />
-    <ClInclude Include="..\src\Common.h" />
+    <ClInclude Include="..\src\Server.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\ClientServerCommands.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{500C3E9D-3CE8-4627-A1DF-349227565364}</ProjectGuid>
@@ -103,6 +108,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +139,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

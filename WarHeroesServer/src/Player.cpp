@@ -23,6 +23,23 @@ Player::~Player()
 	delete _connection;
 }
 
+Player * Player::create(std::vector<int> * customDeck, SOCKET fd)
+{
+	Player *pRet = new Player(customDeck, fd);
+	if (pRet)
+	{
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = NULL;
+		return NULL;
+	}
+	return NULL;
+}
+
+
 void Player::Initialize()
 {
 	mana = 0;
@@ -31,6 +48,12 @@ void Player::Initialize()
 	workers = 1;
 	drawCards(5);
 }
+
+int Player::sendData(std::string &data)
+{
+	return _connection->sendData(data);
+}
+
 void Player::drawCards(int nrCards)
 {
 	for (int i = 1; i <= nrCards; i++)

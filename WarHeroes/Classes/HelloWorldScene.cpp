@@ -47,8 +47,7 @@ bool HelloWorld::init()
 
 	// BUTTONS
 	Menu *menu = Menu::create();
-	Sprite *deckBuilder = Sprite::create("deckBuilderBtn.png");
-	MenuItemSprite* btnDeck = MenuItemSprite::create(deckBuilder, deckBuilder, deckBuilder, this, menu_selector(HelloWorld::deckBuilder));
+	MenuItemImage *btnDeck = MenuItemImage::create("deckBuilderBtn.png", "deckBuilderBtn.png", "deckBuilderBtn.png", CC_CALLBACK_1(HelloWorld::deckBuilder, this));
 	btnDeck->setVisible(true);
 	//btnPlay->setScale(3); // ca sa pot sa te vad mai bine! no need am dioptriile 0
 	menu->addChild(btnDeck);
@@ -56,8 +55,7 @@ bool HelloWorld::init()
 	menu->setPositionX(btnDeck->getContentSize().width);
 	menu->setPositionY(winsize.height- btnDeck->getContentSize().height);
 
-	Sprite *PlayBtn = Sprite::create("btnPlay.png");
-	MenuItemSprite* btnPlay = MenuItemSprite::create(PlayBtn, PlayBtn, PlayBtn, this, menu_selector(HelloWorld::Play));
+	MenuItemImage *btnPlay = MenuItemImage::create("btnPlay.png", "btnPlay.png", "btnPlay.png", CC_CALLBACK_1(HelloWorld::Play, this));
 	btnPlay->setVisible(true);
 	//btnPlay->setScale(3); // ca sa pot sa te vad mai bine! no need am dioptriile 0
 	menu->addChild(btnPlay);
@@ -75,6 +73,9 @@ void HelloWorld::deckBuilder(Ref *ref)
 void HelloWorld::Play(Ref *ref)
 {
 	Scene* newScene = GameScene::createScene();
-	Director::getInstance()->replaceScene(newScene);
+	if (newScene)
+		Director::getInstance()->replaceScene(newScene);
+	else 
+		fprintf_s(stdout, "Error: GameScene could not start");
 }
 
