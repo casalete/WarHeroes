@@ -7,6 +7,8 @@
 
 #include "deck.h"
 
+#define SERVER_COMMAND_LENGHT 10
+
 std::vector<int>* charDecktoVectorDeck(char* strDeck);
 
 enum serverCode { SEND_SERVER_INIT, SEND_SERVER_DECK, SEND_SERVER_STARTGAME, SEND_SERVER_DRAWCARD, SEND_SERVER_ENDGAME};

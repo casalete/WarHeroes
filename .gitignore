@@ -57,3 +57,6 @@ WarHeroesServer/WarHeroesServer/WarHeroesServer.v12.suo
 WarHeroesServer/WarHeroesServer/WarHeroesServer.sdf
 WarHeroesServer/WarHeroesServer/WarHeroesServer.opensdf
 WarHeroesServer/WarHeroesServer/Debug/*
+WarHeroesServer/Debug/*
+/WarHeroes/proj.win32/WarHeroes.VC.VC.opendb
+/WarHeroesServer/WarHeroesServer.VC.VC.opendb

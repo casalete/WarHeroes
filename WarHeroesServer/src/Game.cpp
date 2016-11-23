@@ -23,12 +23,15 @@
 
 int Game::CLItesting()
 {
-	fprintf(stdout, "You may start sending commands\n$");
+	fprintf(stdout, "You may start sending commands");
 	serverCode input;
 	int keepGoing = 1;
-	std::string data;
+	std::string data(SERVER_COMMAND_LENGHT, 0);
+	data[0] = '$';
+	data[SERVER_COMMAND_LENGHT - 1] = ';';
 	while (keepGoing)
 	{
+		fprintf(stdout, "\n$");
 		fscanf_s(stdin, "%d", &input);
 		switch (input)
 		{
@@ -37,14 +40,21 @@ int Game::CLItesting()
 		case SEND_SERVER_DECK:
 			break;
 		case SEND_SERVER_STARTGAME:
-			data = "$00000000;";
 			data[1] = SEND_SERVER_STARTGAME;
 			player[0]->sendData(data);
 			break;
 		case SEND_SERVER_DRAWCARD:
+			data[1] = SEND_SERVER_DRAWCARD;
+			fprintf(stdout, "Who (0 you, 1 him) :");
+			fscanf_s(stdin, "%d", &input);
+			data[2] = input;
+			fprintf(stdout, "What Card:");
+			fscanf_s(stdin, "%d", &input);
+			data[3] = input >> 8;
+			data[4] = input % (1 << 8);
+			player[0]->sendData(data);
 			break;
 		case SEND_SERVER_ENDGAME:
-			data = "$00000000;";
 			data[1] = SEND_SERVER_ENDGAME;
 			player[0]->sendData(data);
 			keepGoing = 0;
@@ -53,7 +63,6 @@ int Game::CLItesting()
 			keepGoing = 0;
 			break;
 		}
-		fprintf(stdout, "\n$");
 	}
 	return 0;
 }

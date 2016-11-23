@@ -6,6 +6,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "ServerConnection.h"
+#include "Card.h"
 
 class GameScene : public cocos2d::Layer
 {
@@ -17,8 +18,9 @@ private:
 	std::mutex mutexReadData;
 	std::mutex mutexLockString;
 	std::thread * readServerThread;
+	std::vector<Card*> playerDeck;
 	
-
+	int drawCard(int, cardName);
 
 	std::string getDeck(int);
 

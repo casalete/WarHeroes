@@ -53,10 +53,14 @@ const char* ServerConnection::receiveData()
 
 int ServerConnection::closeConnection()
 {
-	int iResult = shutdown(ConnectSocket, SD_SEND);
-	closesocket(ConnectSocket);
-	ConnectSocket = INVALID_SOCKET;
-	WSACleanup();
+	int iResult = 0;
+	if (ConnectSocket != INVALID_SOCKET)
+	{
+		iResult = shutdown(ConnectSocket, SD_SEND);
+		closesocket(ConnectSocket);
+		ConnectSocket = INVALID_SOCKET;
+		WSACleanup();
+	}
 	return iResult;
 }
 
