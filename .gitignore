@@ -60,3 +60,5 @@ WarHeroesServer/WarHeroesServer/Debug/*
 WarHeroesServer/Debug/*
 /WarHeroes/proj.win32/WarHeroes.VC.VC.opendb
 /WarHeroesServer/WarHeroesServer.VC.VC.opendb
+WarHeroesServer/WarHeroesServer.VC.db
+WarHeroes/proj.win32/WarHeroes.VC.db

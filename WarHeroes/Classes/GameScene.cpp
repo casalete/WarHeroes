@@ -6,8 +6,9 @@
 #include "Common.h"
 #include "HelloWorldScene.h"
 
-
 USING_NS_CC;
+
+#define POSITION_ERR 50
 
 using namespace cocos2d::ui;
 
@@ -31,8 +32,12 @@ GameScene::GameScene() : cocos2d::Layer()
 
 GameScene::~GameScene()
 {
-	server->closeConnection();
-	delete readServerThread;
+	_eventDispatcher->removeEventListener(listener);
+	if (server) {
+		server->closeConnection();
+		readServerThread->join();
+		delete readServerThread;// for some reason I get sigfault... do I not need to del thread?
+	}
 	delete server;
 }
 
@@ -95,16 +100,17 @@ bool GameScene::init()
 	readServerThread = new std::thread(readThreadLoop, this);
 
 	cocos2d::Size winsize = Director::getInstance()->getWinSize();
+	positionMiddle = Vec2((winsize.width * 3.0) / 5.0, (winsize.height * 11.0) / 20.0);
 	
 	Sprite *backgroundSprite = Sprite::create("BattlefieldBG.jpg");
 	addChild(backgroundSprite);
 	backgroundSprite->setPosition(Vec2(winsize.width / 2 , winsize.height/2));
 	Sprite *battlefieldSprite = Sprite::create("gamelayer battlefield.png");
-	//addChild(battlefieldSprite);
+	addChild(battlefieldSprite);
 	battlefieldSprite->setPosition(Vec2(winsize.width / 2, winsize.height / 2));
 
 	battlefieldLayer = Layer::create(); 
-	battlefieldLayer->setPosition(Vec2((winsize.width * 3.0) / 5.0, (winsize.height * 9.0) / 20.0));
+	battlefieldLayer->setPosition(positionMiddle);
 	addChild(battlefieldLayer);
 
 	Scheduler * _scheduler = getScheduler();
@@ -113,9 +119,13 @@ bool GameScene::init()
 	char str[15];
 	sprintf(str, "card%d.png", NOCARD);
 	//sprintf(str, "card%d.png", /*pageNumber * 8 +*/ i); // the line above is for debug
-	Sprite *card = Sprite::create(str);
-	card->setPosition(Vec2(winsize.width / 10.0, winsize.height / 2.0));
-	addChild(card);
+	Sprite *cardZoom = Sprite::create(str);//TODO : change it into class Card
+	cardZoom->setPosition(Vec2(winsize.width / 10.0, winsize.height / 2.0));
+	addChild(cardZoom, 5, NOCARD);
+
+	listener = EventListenerMouse::create();
+	listener->onMouseMove = CC_CALLBACK_1(GameScene::onMouseMoved, this);
+	_eventDispatcher->addEventListenerWithFixedPriority(listener, 10);
 
 	return true;
 }
@@ -178,9 +188,6 @@ void GameScene::processCommands(float dt)
 			break;
 		case SEND_SERVER_ENDGAME:
 			//lock_buffer = new std::lock_guard<std::mutex>(mutexReadData);
-			server->closeConnection();
-			//delete lock_buffer;
-			readServerThread->join();
 			toMainMenu(NULL);
 			break;
 		default:
@@ -196,8 +203,20 @@ void GameScene::processCommands(float dt)
 int GameScene::drawCard(int playerID, cardName cardID)
 {
 	Card * card = Card::create(cardID);
-	card->setPosition(Vec2(-card->getContentSize().width, -card->getContentSize().height));
+	card->setScale(0.5);
+	card->setPosition(Vec2(playerHand.size() * card->getContentSize().width / 4.0, -card->getContentSize().height *1.5 - POSITION_ERR));
+	//card->setVisible(false);
+	for (int i = 0; i < playerHand.size(); ++i)
+	{
+		Action * shiftCards = MoveBy::create(0.5, Vec2( -card->getContentSize().width / 4.0, 0));
+		playerHand[i]->runAction(shiftCards);
+	}
+	FiniteTimeAction * bringCard = MoveBy::create(0.5, Vec2(0, card->getContentSize().height / 2.0));
+	//FiniteTimeAction * toggleVisibility = ToggleVisibility::create();
+	//card->runAction( Sequence::createWithTwoActions(bringCard, toggleVisibility) );
+	card->runAction(bringCard);
 	battlefieldLayer->addChild(card);
+	playerHand.push_back(card);
 	return 0;
 }
 
@@ -219,6 +238,26 @@ std::string GameScene::getDeck(int playerID)
 
 	fclose(fin);
 	return deck;
+}
+
+void GameScene::onMouseMoved(Event * event)
+{
+	EventMouse* e = (EventMouse*)event;
+	//Vec2 pos = Vec2(e->getLocation().x + positionMiddle.x, e->getLocation().y + positionMiddle.y);
+	Vec2 pos = Vec2(positionMiddle, Vec2(e->getCursorX(), e->getCursorY()));
+	
+	cardName zoomCard = NOCARD;
+	for (int i = 0; i < playerHand.size(); ++i)
+	{
+		if (playerHand[i]->isMouseOver(pos))
+		{
+			zoomCard = playerHand[i]->getCardID();
+		}
+	}
+	char str[15];
+	sprintf(str, "card%d.png", zoomCard);
+	((Sprite*)getChildByTag(NOCARD))->setTexture(str);
+	//TODO: make a Card::clone(zoomCard) function
 }
 
 bool GameScene::isConnected()

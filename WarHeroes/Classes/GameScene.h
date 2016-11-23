@@ -13,16 +13,22 @@ class GameScene : public cocos2d::Layer
 private:
 	cocos2d::Layer* battlefieldLayer;
 	Player * player1;
+
 	ServerConnection *server;
 	std::string serverCommandBuffer;
 	std::mutex mutexReadData;
 	std::mutex mutexLockString;
 	std::thread * readServerThread;
-	std::vector<Card*> playerDeck;
-	
-	int drawCard(int, cardName);
 
+	std::vector<Card*> playerHand;
+	cocos2d::Vec2 positionMiddle;
+	
+
+	int drawCard(int, cardName);
 	std::string getDeck(int);
+
+	cocos2d::EventListenerMouse *listener;
+	void onMouseMoved(cocos2d::Event *event);
 
 public:
 	GameScene();

@@ -12,12 +12,13 @@ Card* Card::create(cardName cardID)
 
 	std::stringstream ss;
 	ss << "Card" << cardID << ".png";
+	
 	std::string str = ss.str();
 	
 	Card* pSprite = new Card();
 
 
-	if (pSprite->initWithSpriteFrameName(str))
+	if (pSprite->initWithFile(str.c_str()))
 	{
 		pSprite->ID = cardID;
 		pSprite->cardInit();
@@ -28,9 +29,6 @@ Card* Card::create(cardName cardID)
 
 	CC_SAFE_DELETE(pSprite);
 	return NULL;
-
-	
-
 }
 void Card::cardInit()
 {
@@ -290,5 +288,23 @@ void Card::cardInit()
 		
 	
 	// de facut switch cu case pt fiecare carte
+	//Edit phd 23/11/2016 ^^ WAS I CRAZY OR WHAT:D we need 1 file/each :)))
 	
+}
+
+bool Card::isMouseOver(Vec2 p)
+{
+	cocos2d::Rect rect = this->getBoundingBox();
+
+	if (rect.containsPoint(p))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+cardName Card::getCardID()
+{
+	return ID;
 }
