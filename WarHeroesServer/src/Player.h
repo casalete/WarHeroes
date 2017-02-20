@@ -4,11 +4,12 @@
 #include <vector>
 
 #include "Connection.h"
+#include "Common.h"
 
 class Player
 {
-	std::vector<int> shuffledDeck;
-	std::vector<int> hand;
+	std::vector<cardName> shuffledDeck;
+	std::vector<cardName> hand;
 	bool turn;
 	int gold;
 	int mana;
@@ -29,11 +30,12 @@ class Player
 	bool isTurn();
 	void endTurn();
 	void startTurn();
-	std::vector<int> getPlayerDeck();
+	std::vector<cardName> getPlayerDeck();
 public:
 	Player(std::vector<int>*, SOCKET);
 	~Player();
 	int sendData(std::string&);
+	cardName drawCard();
 	static Player * create(std::vector<int> * customDeck, SOCKET fd);
 };
 

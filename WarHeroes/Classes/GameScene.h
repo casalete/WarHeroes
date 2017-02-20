@@ -21,14 +21,21 @@ private:
 	std::thread * readServerThread;
 
 	std::vector<Card*> playerHand;
+	std::vector<Card*> playerWarriors;
+	std::vector<Card*> playerGuardians;
+	std::vector<Card*> SoldierSlots;
+	Card* selectedCard;
 	cocos2d::Vec2 positionMiddle;
 	
 
 	int drawCard(int, cardName);
 	std::string getDeck(int);
 
+	cocos2d::Vec2 getSoldierPosition(unsigned char);
+
 	cocos2d::EventListenerMouse *listener;
 	void onMouseMoved(cocos2d::Event *event);
+	void onMouseClick(cocos2d::Event *event);
 
 public:
 	GameScene();

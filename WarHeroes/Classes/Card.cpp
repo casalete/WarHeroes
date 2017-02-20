@@ -304,6 +304,98 @@ bool Card::isMouseOver(Vec2 p)
 	return false;
 }
 
+void Card::enterScroll()
+{
+	Vector<SpriteFrame*> animFrames;
+	SpriteFrame* frame;
+
+	char str[50] = { 0 };
+
+	sprintf(str, "Card%d.png", NOCARD);
+	frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+	animFrames.pushBack(frame);
+
+	for (int i = 3; i > 0; --i)
+	{
+		sprintf(str, "CardClose%02d.png", i);
+		frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+		animFrames.pushBack(frame);
+	}
+
+	sprintf(str, "Card%d.png", ID);
+	frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+	animFrames.pushBack(frame);
+
+	Animation * animation = Animation::createWithSpriteFrames(animFrames, 0.07);
+	Animate * animate = Animate::create(animation);
+	FadeIn * fadeIn = FadeIn::create(0.3);
+	cocos2d::Action* openScroll = Sequence::createWithTwoActions(fadeIn, animate);
+	runAction(openScroll);
+}
+
+void Card::exitScroll()
+{
+	Vector<SpriteFrame*> animFrames;
+
+	char str[50] = { 0 };
+
+	sprintf(str, "Card%d.png", ID);
+	SpriteFrame* frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+	animFrames.pushBack(frame);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		sprintf(str, "CardClose%02d.png", i);
+		frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+		animFrames.pushBack(frame);
+	}
+	sprintf(str, "Card%d.png", NOCARD);
+	frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+	animFrames.pushBack(frame);
+
+	Animation * animation = Animation::createWithSpriteFrames(animFrames, 0.07);
+	Animate * animate = Animate::create(animation);
+	FadeOut * fadeOut = FadeOut::create(0.3);
+	cocos2d::Action* closeScroll = Sequence::createWithTwoActions(animate, fadeOut);
+	runAction(closeScroll);
+}
+
+void Card::moveScroll(cocos2d::Vec2 pos)
+{
+	Vector<SpriteFrame*> animFrames;
+	Vector<FiniteTimeAction*> actions;
+
+	char str[50] = { 0 };
+
+	sprintf(str, "Card%d.png", ID);
+	SpriteFrame* frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+	animFrames.pushBack(frame);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		sprintf(str, "CardClose%02d.png", i);
+		frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+		animFrames.pushBack(frame);
+	}
+	sprintf(str, "Card%d.png", NOCARD);
+	frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
+	animFrames.pushBack(frame);
+
+	Animation * animation = Animation::createWithSpriteFrames(animFrames, 0.07);
+	Animate * animate = Animate::create(animation);
+	Animate * revAnimate = animate->reverse();
+	FadeOut * fadeOut = FadeOut::create(0.3);
+	MoveTo * move = MoveTo::create(0, pos);
+	FadeIn * fadeIn = FadeIn::create(0.3);
+	actions.pushBack(animate);
+	actions.pushBack(fadeOut);
+	actions.pushBack(move);
+	actions.pushBack(fadeIn);
+	actions.pushBack(revAnimate);
+	cocos2d::Action* closeScroll = Sequence::create(actions);
+	runAction(closeScroll);
+}
+
 cardName Card::getCardID()
 {
 	return ID;

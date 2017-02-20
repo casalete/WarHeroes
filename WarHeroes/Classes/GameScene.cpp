@@ -95,6 +95,7 @@ bool GameScene::init()
 		return false;
 	}
 	serverCommandBuffer = "";
+	selectedCard = NULL;
 
 	server->sendData(&getDeck(1));
 	readServerThread = new std::thread(readThreadLoop, this);
@@ -125,7 +126,17 @@ bool GameScene::init()
 
 	listener = EventListenerMouse::create();
 	listener->onMouseMove = CC_CALLBACK_1(GameScene::onMouseMoved, this);
+	listener->onMouseUp = CC_CALLBACK_1(GameScene::onMouseClick, this);
 	_eventDispatcher->addEventListenerWithFixedPriority(listener, 10);
+
+	for (int i = 0; i < TOTAL_SOLDIERS_BATTLEFIELD; ++i)
+	{
+		Card * card = Card::create(NOCARD);
+		card->setScale(0.5);
+		card->setPosition(getSoldierPosition(i));
+		battlefieldLayer->addChild(card);
+		SoldierSlots.push_back(card);
+	}
 
 	return true;
 }
@@ -170,6 +181,8 @@ void GameScene::processCommands(float dt)
 	Sprite *backgroundSprite = Sprite::create("HomeScene.png");
 	int playerID;
 	cardName card;
+	Card * playedCard;
+	Vec2 pos;
 	if (serverCommand.size() == SERVER_COMMAND_LENGHT)
 	{
 		switch ((serverCode)serverCommand[1])
@@ -179,7 +192,7 @@ void GameScene::processCommands(float dt)
 		case SEND_SERVER_DECK:
 			break;
 		case SEND_SERVER_STARTGAME:
-			addChild(backgroundSprite);
+			//addChild(backgroundSprite);
 			break;
 		case SEND_SERVER_DRAWCARD:
 			playerID = serverCommand[2];
@@ -189,6 +202,41 @@ void GameScene::processCommands(float dt)
 		case SEND_SERVER_ENDGAME:
 			//lock_buffer = new std::lock_guard<std::mutex>(mutexReadData);
 			toMainMenu(NULL);
+			break;
+		case SEND_SERVER_FADECARD:
+			if (serverCommand[3])
+				playerHand[serverCommand[2]]->enterScroll();
+			else
+				playerHand[serverCommand[2]]->exitScroll();
+			break;
+		case SEND_SERVER_PLAYCARD:
+
+			// remove from hand
+			playedCard = playerHand[serverCommand[2]];
+			for (int i = 0; i < playerHand.size(); ++i)
+			{
+				Action * shiftCards;
+				if (i < serverCommand[2])
+				{
+					shiftCards = MoveBy::create(0.5, Vec2(playedCard->getContentSize().width / 4.0, 0));
+					playerHand[i]->runAction(shiftCards);
+				}
+				else if (i > serverCommand[2])
+				{
+					shiftCards = MoveBy::create(0.5, Vec2(-playedCard->getContentSize().width / 4.0, 0));
+					playerHand[i]->runAction(shiftCards);
+				}
+			}
+			playerHand.erase(playerHand.begin() + serverCommand[2]);
+
+			// identify new place
+			pos = getSoldierPosition(serverCommand[3]);
+
+			// move it on battlefield
+			playedCard->moveScroll(pos);
+			SoldierSlots[serverCommand[3]]->removeFromParent();
+			SoldierSlots[serverCommand[3]] = playedCard;
+			
 			break;
 		default:
 			break;
@@ -227,7 +275,8 @@ std::string GameScene::getDeck(int playerID)
 	char str[15];
 	sprintf(str, "Player%d.data", playerID);
 
-	char Buffer[NOCARD + 2];
+	//char Buffer[NOCARD + 2];
+	char* Buffer = (char*)calloc(NOCARD + 2, sizeof(char));
 
 	FILE * fin = fopen(str, "r");
 	if (fin)
@@ -237,7 +286,80 @@ std::string GameScene::getDeck(int playerID)
 	}
 
 	fclose(fin);
+	free(Buffer);
 	return deck;
+}
+
+cocos2d::Vec2 GameScene::getSoldierPosition(unsigned char soldier)
+{
+	Vec2 pos;
+	cocos2d::Size cardSize = ((Sprite*)getChildByTag(NOCARD))->getContentSize();
+	switch ((SoldiersPosition)soldier)
+	{
+	case MY_WAR_1:
+		pos.set(-cardSize.width * 2.25, -cardSize.height *0.25 - POSITION_ERR* 0.6);
+		break;
+	case MY_WAR_2:
+		pos.set(-cardSize.width * 1.25, -cardSize.height *0.25 - POSITION_ERR* 0.6);
+		break;
+	case MY_WAR_3:
+		pos.set(-cardSize.width * 0.75, -cardSize.height *0.25 - POSITION_ERR* 0.6);
+		break;
+	case MY_WAR_4:
+		pos.set(cardSize.width * 0.75, -cardSize.height *0.25 - POSITION_ERR* 0.6);
+		break;
+	case MY_WAR_5:
+		pos.set(cardSize.width * 1.25, -cardSize.height *0.25 - POSITION_ERR* 0.6);
+		break;
+	case MY_WAR_6:
+		pos.set(cardSize.width * 2.25, -cardSize.height *0.25 - POSITION_ERR* 0.6);
+		break;
+	case MY_GUARD_1:
+		pos.set(-cardSize.width * 0.25, -cardSize.height *0.5 - POSITION_ERR* 0.6);
+		break;
+	case MY_GUARD_2:
+		pos.set(cardSize.width * 0.25, -cardSize.height *0.5 - POSITION_ERR* 0.6);
+		break;
+	case MY_GUARD_GOLD:
+		pos.set(-cardSize.width * 1.75, -cardSize.height *0.5 - POSITION_ERR* 0.6);
+		break;
+	case MY_GUARD_MANA:
+		pos.set(cardSize.width * 1.75, -cardSize.height *0.5 - POSITION_ERR* 0.6);
+		break;
+	case HIS_WAR_1:
+		pos.set(-cardSize.width * 2.25, cardSize.height *0.25 + POSITION_ERR* 0.6);
+		break;
+	case HIS_WAR_2:
+		pos.set(-cardSize.width * 1.25, cardSize.height *0.25 + POSITION_ERR* 0.6);
+		break;
+	case HIS_WAR_3:
+		pos.set(-cardSize.width * 0.75, cardSize.height *0.25 + POSITION_ERR* 0.6);
+		break;
+	case HIS_WAR_4:
+		pos.set(cardSize.width * 0.75, cardSize.height *0.25 + POSITION_ERR* 0.6);
+		break;
+	case HIS_WAR_5:
+		pos.set(cardSize.width * 1.25, cardSize.height *0.25 + POSITION_ERR* 0.6);
+		break;
+	case HIS_WAR_6:
+		pos.set(cardSize.width * 2.25, cardSize.height *0.25 + POSITION_ERR* 0.6);
+		break;
+	case HIS_GUARD_1:
+		pos.set(-cardSize.width * 0.25, cardSize.height *0.5 + POSITION_ERR* 0.6);
+		break;
+	case HIS_GUARD_2:
+		pos.set(cardSize.width * 0.25, cardSize.height *0.5 + POSITION_ERR* 0.6);
+		break;
+	case HIS_GUARD_GOLD:
+		pos.set(-cardSize.width * 1.75, cardSize.height *0.5 + POSITION_ERR* 0.6);
+		break;
+	case HIS_GUARD_MANA:
+		pos.set(cardSize.width * 1.75, cardSize.height *0.5 + POSITION_ERR* 0.6);
+		break;
+	default:
+		break;
+	}
+	return pos;
 }
 
 void GameScene::onMouseMoved(Event * event)
@@ -246,18 +368,74 @@ void GameScene::onMouseMoved(Event * event)
 	//Vec2 pos = Vec2(e->getLocation().x + positionMiddle.x, e->getLocation().y + positionMiddle.y);
 	Vec2 pos = Vec2(positionMiddle, Vec2(e->getCursorX(), e->getCursorY()));
 	
+	if (!selectedCard)
+	{
+		cardName zoomCard = NOCARD;
+		for (int i = 0; i < playerHand.size(); ++i)
+		{
+			if (playerHand[i]->isMouseOver(pos))
+			{
+				zoomCard = playerHand[i]->getCardID();
+			}
+		}
+
+		for (int i = 0; i < SoldierSlots.size(); ++i)
+		{
+			if (SoldierSlots[i]->isMouseOver(pos))
+			{
+				zoomCard = SoldierSlots[i]->getCardID();
+			}
+		}
+
+		char str[15];
+		sprintf(str, "card%d.png", zoomCard);
+		((Sprite*)getChildByTag(NOCARD))->setTexture(str);
+		//TODO: make a Card::clone(zoomCard) function
+	}
+}
+
+
+void GameScene::onMouseClick(Event * event)
+{
+	EventMouse* e = (EventMouse*)event;
+	//Vec2 pos = Vec2(e->getLocation().x + positionMiddle.x, e->getLocation().y + positionMiddle.y);
+	Vec2 pos = Vec2(positionMiddle, Vec2(e->getCursorX(), e->getCursorY()));
+	log("coord on click are: %f %f", pos.x, pos.y);
+
+	Card* selCard = NULL;
 	cardName zoomCard = NOCARD;
 	for (int i = 0; i < playerHand.size(); ++i)
 	{
 		if (playerHand[i]->isMouseOver(pos))
 		{
-			zoomCard = playerHand[i]->getCardID();
+			selCard = playerHand[i];
+			break;
 		}
 	}
-	char str[15];
-	sprintf(str, "card%d.png", zoomCard);
-	((Sprite*)getChildByTag(NOCARD))->setTexture(str);
-	//TODO: make a Card::clone(zoomCard) function
+	for (int i = 0; i < SoldierSlots.size(); ++i)
+	{
+		if (SoldierSlots[i]->isMouseOver(pos) && SoldierSlots[i]->getCardID() != NOCARD)
+		{
+			selCard = SoldierSlots[i];
+			break;
+		}
+	}
+
+	if (selectedCard)// that means we use selectedCard on selCard if we can
+	{
+		selectedCard->runAction(ScaleTo::create(0.05, 0.5));
+		char str[15];
+		//sprintf(str, "card%d.png", NOCARD);
+		//((Sprite*)getChildByTag(NOCARD))->setTexture(str);
+		//TODO: make a Card::clone(zoomCard) function
+		selectedCard = NULL;
+	} else if (selCard->getCardID() != NOCARD) {
+		selectedCard = selCard;
+		if (selCard)
+		{
+		selectedCard->runAction(ScaleTo::create(0.05, 0.55));
+		}
+	}
 }
 
 bool GameScene::isConnected()

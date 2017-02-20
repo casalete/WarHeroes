@@ -7,6 +7,7 @@ enum cardName {
 	FIRST_AID,	PLAGUE,	FIREBALL,	COMMAND_PROMOTE,	COMMAND_SHIELD,			COMMAND_SWORD,	COMMAND_VOLLEY, RATS,			BLESSING,	CHOSEN_ONE,	EARTHQUAKE,
 	NOCARD, 
 	//now, after NOCARD, we put all the disabled cards
+	// NOCARD must ALWAYS be the last card. ALWAYS! Check image-name is named accordingly to NOCARD value
 	MEDIC, PRIEST };
 
 #endif

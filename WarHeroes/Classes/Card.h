@@ -17,6 +17,9 @@ private:
 	void cardInit();
 public:
 	bool isMouseOver(cocos2d::Vec2);
+	void enterScroll();
+	void exitScroll();
+	void moveScroll(cocos2d::Vec2);
 	cardName getCardID();
 	static Card *create(cardName);
 };

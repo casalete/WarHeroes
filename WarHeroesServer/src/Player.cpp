@@ -11,7 +11,7 @@ Player::Player(std::vector<int> * customDeck, SOCKET fd)
 	while (customDeck->size())
 	{
 		int	x = rand() % customDeck->size();
-		shuffledDeck.push_back((*customDeck)[x]);
+		shuffledDeck.push_back((cardName)(*customDeck)[x]);
 		customDeck->erase(customDeck->begin() + x);
 	}
 	delete customDeck;
@@ -54,11 +54,23 @@ int Player::sendData(std::string &data)
 	return _connection->sendData(data);
 }
 
+cardName Player::drawCard()
+{
+	if (!shuffledDeck.empty())
+	{
+		cardName card = shuffledDeck.back();
+		shuffledDeck.pop_back();
+		hand.push_back(card);
+		return card;
+	}
+	return NOCARD;
+}
+
 void Player::drawCards(int nrCards)
 {
 	for (int i = 1; i <= nrCards; i++)
 	{
-		int cardID = shuffledDeck.back();
+		cardName cardID = shuffledDeck.back();
 		hand.push_back(cardID);
 		shuffledDeck.pop_back();
 		//TODO: Tell client what he had drawn
@@ -99,9 +111,9 @@ void Player::startTurn()
 	mana = mana + monastery;
 	drawCards(1);
 }
-std::vector<int> Player::getPlayerDeck()
+std::vector<cardName> Player::getPlayerDeck()
 {
-	std::vector<int> deck;
+	std::vector<cardName> deck;
 
 	char str[15];
 	sprintf_s(str, "Player%d.data", playerID);
@@ -116,7 +128,7 @@ std::vector<int> Player::getPlayerDeck()
 			fscanf_s(fin, "%c", &inputChar);
 			while (inputChar > '0')
 			{
-				deck.push_back(i);
+				deck.push_back((cardName)i);
 				--inputChar;
 			}
 		}
