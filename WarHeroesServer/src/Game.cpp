@@ -9,7 +9,7 @@
 #include "Common.h"
 
 #define BUFFER_SIZE 2000
-
+#define NUMBER_PLAYERS 1
 
 //std::vector<int> Game::parseDeck(const char * buffer)
 //{
@@ -76,6 +76,9 @@ int Game::CLItesting()
 			data[3] = input;
 			player[0]->sendData(data);
 			break;
+		case SEND_SERVER_READINFO:
+			processCommands(0);
+			break;
 		default:
 			keepGoing = 0;
 			break;
@@ -86,15 +89,13 @@ int Game::CLItesting()
 
 void Game::RunGame() {
 	int errCode;
-	if ((errCode = _server->acceptPlayer(0)))
+	for (int j = 0; j < NUMBER_PLAYERS; ++j)
 	{
-		fprintf_s(stderr, "acceptPlayers(0) returned %d\n", errCode);
+		if ((errCode = _server->acceptPlayer(j)))
+		{
+			fprintf_s(stderr, "acceptPlayers(%d) returned %d\n", j, errCode);
+		}
 	}
-	// uncomment the lower part to connect 2nd player
-	/*if ((errCode = _server->acceptPlayer(1)))
-	{
-		fprintf_s(stderr, "acceptPlayers(1) returned %d\n", errCode);
-	}*/
 	fprintf_s(stderr, "we are done connecting!\n");
 	CLItesting();
 }
@@ -110,3 +111,11 @@ Game::~Game()
 	delete _server;
 }
 
+void Game::processCommands(float dt)
+{
+	for (int j = 0; j < NUMBER_PLAYERS; ++j)
+	{
+		std::string clientCommand = player[j]->readCommand();
+		player[j]->sendData(clientCommand);// this is only for testing
+	}
+}

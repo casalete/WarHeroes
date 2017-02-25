@@ -22,6 +22,7 @@ class Game
 	int CLItesting();
 public:
 	void RunGame();
+	void processCommands(float dt);
 	Game();
 	~Game();
 };

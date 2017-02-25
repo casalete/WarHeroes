@@ -40,6 +40,7 @@ void Card::cardInit()
 		attack = 5;
 		health = 5;
 		ability = "Lads"; // Lads
+		type = CLASS_CAVALERY;
 	    break;
 	case SQUIRE:
 		manaCost = 0;
@@ -289,6 +290,7 @@ void Card::cardInit()
 	
 	// de facut switch cu case pt fiecare carte
 	//Edit phd 23/11/2016 ^^ WAS I CRAZY OR WHAT:D we need 1 file/each :)))
+	// 21/02/2017 ^^ Should, (not need). Let's hope we find a better ideea
 	
 }
 
@@ -399,4 +401,29 @@ void Card::moveScroll(cocos2d::Vec2 pos)
 cardName Card::getCardID()
 {
 	return ID;
+}
+
+int Card::getSlot()
+{
+	return slot;
+}
+
+void Card::setSlot(int newSlot)
+{
+	slot = newSlot;
+}
+
+cardRole Card::getRole()
+{
+	return role;
+}
+
+void Card::setRole(cardRole newRole)
+{
+	role = newRole;
+}
+
+classType Card::getType()
+{
+	return type;
 }

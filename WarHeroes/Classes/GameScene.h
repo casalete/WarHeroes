@@ -16,7 +16,6 @@ private:
 
 	ServerConnection *server;
 	std::string serverCommandBuffer;
-	std::mutex mutexReadData;
 	std::mutex mutexLockString;
 	std::thread * readServerThread;
 

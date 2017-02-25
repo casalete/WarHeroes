@@ -3,7 +3,12 @@
 #include <cstdlib>
 
 #include "Deck.h"
+#include "Connection.h"
 
+void readThreadLoop(Player* player)
+{
+	player->readData();
+}
 
 Player::Player(std::vector<int> * customDeck, SOCKET fd)
 {
@@ -20,6 +25,9 @@ Player::Player(std::vector<int> * customDeck, SOCKET fd)
 
 Player::~Player()
 {
+	_connection->closeConnection();
+	readClientThread->join();
+	delete readClientThread;
 	delete _connection;
 }
 
@@ -28,6 +36,7 @@ Player * Player::create(std::vector<int> * customDeck, SOCKET fd)
 	Player *pRet = new Player(customDeck, fd);
 	if (pRet)
 	{
+		pRet->readClientThread = new std::thread(readThreadLoop, pRet);
 		return pRet;
 	}
 	else
@@ -52,6 +61,32 @@ void Player::Initialize()
 int Player::sendData(std::string &data)
 {
 	return _connection->sendData(data);
+}
+void Player::readData()
+{
+	while (_connection && _connection->isConnected())// todo make it stop from a toggle.
+	{
+		_connection->readData(clientBuffer);
+	}
+}
+
+std::string Player::readCommand()
+{
+	std::string::iterator i;
+	std::string serverCommand = "";
+
+	std::lock_guard<std::mutex> lock_buffer(_connection->mutexLockString);
+	for (i = clientBuffer.begin(); i != clientBuffer.end(); ++i)
+	{
+		if (*i == ';')
+			break;
+	}
+	if (i != clientBuffer.end())
+	{
+		serverCommand = clientBuffer.substr(0, ++i - clientBuffer.begin());
+		clientBuffer.erase(clientBuffer.begin(), i);
+	}
+	return serverCommand;
 }
 
 cardName Player::drawCard()

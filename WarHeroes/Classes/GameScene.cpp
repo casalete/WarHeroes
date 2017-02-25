@@ -14,15 +14,10 @@ using namespace cocos2d::ui;
 
 void readThreadLoop(GameScene * game)
 {
-
 	while (game->isConnected())// todo make it stop from a toggle.
 	{
 		game->receiveData();
 	}
-
-	/*char buff[512];
-	memset(buff, 0, DEFAULT_BUFFLEN);
-	int iResult = recv(ConnectSocket, buff, DEFAULT_BUFFLEN, 0);*/
 }
 
 
@@ -134,6 +129,7 @@ bool GameScene::init()
 		Card * card = Card::create(NOCARD);
 		card->setScale(0.5);
 		card->setPosition(getSoldierPosition(i));
+		card->setSlot(i);
 		battlefieldLayer->addChild(card);
 		SoldierSlots.push_back(card);
 	}
@@ -143,8 +139,9 @@ bool GameScene::init()
 
 void GameScene::receiveData() //Thread function
 {
-	for (int i = 0; i < 100; ++i); // this line is for thread delay No need to make too many recv calls
+	//for (int i = 0; i < 100; ++i); // this line is for thread delay No need to make too many recv calls
 	//besides, the main thread needs time for the data buffer too
+	// Now that I looked again, that is stupid :P
 
 	//std::lock_guard<std::mutex> * lock_server = new std::lock_guard<std::mutex>(mutexReadData);
 	std::string dataReceived(server->receiveData(), SERVER_COMMAND_LENGHT);
@@ -225,6 +222,7 @@ void GameScene::processCommands(float dt)
 				{
 					shiftCards = MoveBy::create(0.5, Vec2(-playedCard->getContentSize().width / 4.0, 0));
 					playerHand[i]->runAction(shiftCards);
+					playerHand[i]->setSlot(i - 1);
 				}
 			}
 			playerHand.erase(playerHand.begin() + serverCommand[2]);
@@ -236,6 +234,13 @@ void GameScene::processCommands(float dt)
 			playedCard->moveScroll(pos);
 			SoldierSlots[serverCommand[3]]->removeFromParent();
 			SoldierSlots[serverCommand[3]] = playedCard;
+			playedCard->setSlot(serverCommand[3]);
+			if ((serverCommand[3] < MY_GUARD_1) || ((serverCommand[3] > MY_GUARD_MANA) && (serverCommand[3] < HIS_GUARD_1)))
+			{
+				playedCard->setRole(ROLE_WARRIOR);
+			} else {
+				playedCard->setRole(ROLE_GUARDIAN);
+			}
 			
 			break;
 		default:
@@ -253,6 +258,8 @@ int GameScene::drawCard(int playerID, cardName cardID)
 	Card * card = Card::create(cardID);
 	card->setScale(0.5);
 	card->setPosition(Vec2(playerHand.size() * card->getContentSize().width / 4.0, -card->getContentSize().height *1.5 - POSITION_ERR));
+	card->setSlot(playerHand.size());
+	card->setRole(ROLE_INHAND);
 	//card->setVisible(false);
 	for (int i = 0; i < playerHand.size(); ++i)
 	{
@@ -404,6 +411,7 @@ void GameScene::onMouseClick(Event * event)
 
 	Card* selCard = NULL;
 	cardName zoomCard = NOCARD;
+	int index;
 	for (int i = 0; i < playerHand.size(); ++i)
 	{
 		if (playerHand[i]->isMouseOver(pos))
@@ -414,8 +422,9 @@ void GameScene::onMouseClick(Event * event)
 	}
 	for (int i = 0; i < SoldierSlots.size(); ++i)
 	{
-		if (SoldierSlots[i]->isMouseOver(pos) && SoldierSlots[i]->getCardID() != NOCARD)
+		if (SoldierSlots[i]->isMouseOver(pos))
 		{
+			index = i;
 			selCard = SoldierSlots[i];
 			break;
 		}
@@ -428,8 +437,20 @@ void GameScene::onMouseClick(Event * event)
 		//sprintf(str, "card%d.png", NOCARD);
 		//((Sprite*)getChildByTag(NOCARD))->setTexture(str);
 		//TODO: make a Card::clone(zoomCard) function
+
+		if ((selectedCard->getRole() == ROLE_INHAND) && selCard && (selCard->getCardID() == NOCARD))
+		{
+			std::string data(SERVER_COMMAND_LENGHT, 0);
+			data[0] = '$';
+			data[1] = SEND_SERVER_PLAYCARD;
+			data[2] = selectedCard->getSlot();
+			data[3] = selCard->getSlot();
+			data[SERVER_COMMAND_LENGHT - 1] = ';';
+			server->sendData(&data);
+		}
+
 		selectedCard = NULL;
-	} else if (selCard->getCardID() != NOCARD) {
+	} else if (selCard && selCard->getCardID() != NOCARD) {
 		selectedCard = selCard;
 		if (selCard)
 		{
