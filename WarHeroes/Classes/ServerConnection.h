@@ -20,7 +20,7 @@ private:
 	char buff[DEFAULT_BUFFLEN];
 public:
 	int sendData(std::string*);
-	const char* receiveData();
+	std::string receiveData();
 	int closeConnection();
 	bool isConnected();
 	ServerConnection();

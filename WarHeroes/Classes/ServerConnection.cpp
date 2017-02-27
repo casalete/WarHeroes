@@ -40,15 +40,20 @@ int ServerConnection::sendData(std::string * buffer)
 	return 0;
 }
 
-const char* ServerConnection::receiveData()
+std::string ServerConnection::receiveData()
 {
 	memset(buff, 0, DEFAULT_BUFFLEN);
 	//int iResult = recv(ConnectSocket, buff, DEFAULT_BUFFLEN, MSG_PEEK);
 	//if (iResult)
 	//{
-		recv(ConnectSocket, buff, DEFAULT_BUFFLEN, 0);
+		int bytesNo = recv(ConnectSocket, buff, DEFAULT_BUFFLEN, 0);
 	//}
-	return (const char*)buff;
+	if (bytesNo > 0)
+	{
+		std::string ret((const char*)buff, bytesNo);
+		return ret;
+	}
+	return "";
 }
 
 int ServerConnection::closeConnection()

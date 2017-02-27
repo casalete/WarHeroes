@@ -105,10 +105,24 @@ void Player::drawCards(int nrCards)
 {
 	for (int i = 1; i <= nrCards; i++)
 	{
-		cardName cardID = shuffledDeck.back();
-		hand.push_back(cardID);
-		shuffledDeck.pop_back();
-		//TODO: Tell client what he had drawn
+		if (!shuffledDeck.empty())
+		{
+			cardName cardID = shuffledDeck.back();
+			hand.push_back(cardID);
+			shuffledDeck.pop_back();
+			//TODO: Tell client what he had drawn
+
+			std::string data(SERVER_COMMAND_LENGHT, 0);
+			data[0] = '$';
+			data[SERVER_COMMAND_LENGHT - 1] = ';';
+
+			data[1] = SEND_SERVER_DRAWCARD;
+
+			data[2] = 0; // he draws, not enemy,
+			data[3] = cardID >> 8;
+			data[4] = cardID % (1 << 8);
+			sendData(data);
+		}
 	}
 }
 void Player::placeVillager(int job)

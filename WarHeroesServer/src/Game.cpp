@@ -44,15 +44,14 @@ int Game::CLItesting()
 			player[0]->sendData(data);
 			break;
 		case SEND_SERVER_DRAWCARD:
-			fprintf(stdout, "Who (0 you, 1 him) :");
-			fscanf_s(stdin, "%d", &input);
-			data[2] = input;
-			//fprintf(stdout, "What Card:");
+			//fprintf(stdout, "Who (0 you, 1 him) :");
 			//fscanf_s(stdin, "%d", &input);
-			input = (int)player[0]->drawCard();
-			data[3] = input >> 8;
-			data[4] = input % (1 << 8);
-			player[0]->sendData(data);
+			player[0]->drawCards(1);
+			//data[2] = input;
+			//input = (int)player[0]->drawCard();
+			//data[3] = input >> 8;
+			//data[4] = input % (1 << 8);
+			//player[0]->sendData(data);
 			break;
 		case SEND_SERVER_ENDGAME:
 			player[0]->sendData(data);

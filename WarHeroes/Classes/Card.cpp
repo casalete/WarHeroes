@@ -32,6 +32,7 @@ Card* Card::create(cardName cardID)
 }
 void Card::cardInit()
 {
+	active = 1;
 	switch (ID)
 	{
 	case KNIGHT:
@@ -39,7 +40,7 @@ void Card::cardInit()
 		goldCost = 5;
 		attack = 5;
 		health = 5;
-		ability = "Lads"; // Lads
+		//ability = "Lads"; // Lads
 		type = CLASS_CAVALERY;
 	    break;
 	case SQUIRE:
@@ -47,250 +48,296 @@ void Card::cardInit()
 		goldCost = 2;
 		attack = 2;
 		health = 2;
-		ability = "Lads"; //Lads
+		type = CLASS_INFANTRY;
+		//ability = "Lads"; //Lads
 		break;
 	case LONGBOWMAN:
 		manaCost = 0;
-		goldCost = 5;
-		attack = 4;
-		health = 3;
-		ability = "No_retal";
+		goldCost = 4;
+		attack = 3;
+		health = 4;
+		//ability = "No_retal";
+		type = CLASS_ARCHER;
 		break;
 	case SPEARMAN:
 		manaCost = 0;
 		goldCost = 3;
 		attack = 2;
 		health = 3;
-		ability = "Anti_Cavalry|Defender";
+		//ability = "Anti_Cavalry|Defender";
+		type = CLASS_INFANTRY;
 		break;
 	case SORCERER_APPRENTICE:
 		manaCost = 2;
 		goldCost = 1;
 		attack = 4;
 		health = 3;
-		ability = "";
+		type = CLASS_CASTER;
 		break;
 	case MILITIAN:
 		manaCost = 0;
 		goldCost = 2;
 		attack = 2;
 		health = 2;
-		ability = "Defender";
+		//ability = "Defender";
+		type = CLASS_INFANTRY;
 		break;
 	case GOBLIN:
 		manaCost = 0;
 		goldCost = 2;
 		attack = 2;
 		health = 2;
-		ability = "";
+		type = CLASS_INFANTRY;
 		break;
 	case PYROMANCERR:
 		manaCost = 0;
 		goldCost = 5;
 		attack = 5;
 		health = 3;
-		ability = "";
+		type = CLASS_INFANTRY;
 		break;
 	case DIREWOLF:
 		manaCost = 0;
 		goldCost = 4;
 		attack = 5;
 		health = 2;
-		ability = "";
+		type = CLASS_CAVALERY;
 		break;
 	case ALPHAWOLF:
 		manaCost = 0;
 		goldCost = 6;
 		attack = 5;
 		health = 5;
-		ability = "Leader";
+		//ability = "Leader";
+		type = CLASS_CAVALERY;
 		break;
 	case WOLF:
 		manaCost = 0;
 		goldCost = 2;
 		attack = 3;
 		health = 2;
-		ability = "";
+		type = CLASS_CAVALERY;
 		break;
 	case WOLF_RIDER:
 		manaCost = 0;
 		goldCost = 5;
 		attack = 5;
 		health = 5;
-		ability = "";
+		type = CLASS_CAVALERY;
 		break;
 	case VIKING:
 		manaCost = 0;
 		goldCost = 6;
 		attack = 6;
 		health = 5;
-		ability = "";
+		type = CLASS_INFANTRY;
 		break;
 	case THIEF:
 		manaCost = 0;
 		goldCost = 2;
 		attack = 3;
 		health = 2;
-		ability = "";
+		type = CLASS_INFANTRY;
 		break;
 	case TREBUCHET:
 		manaCost = 0;
 		goldCost = 7;
 		attack = 10;
 		health = 3;
-		ability = "CAN'T_ATTACK_CREATURE";
+		//ability = "CAN'T_ATTACK_CREATURE";
+		type = CLASS_SIEGE;
 		break;
 	case SORCERER:
 		manaCost = 3;
 		goldCost = 2;
 		attack = 5;
 		health = 4;
-		ability = "";
+		type = CLASS_CASTER;
 		break;
 	case MAGE:
 		manaCost = 3;
 		goldCost = 1;
 		attack = 5;
 		health = 3;
-		ability = "";
+		type = CLASS_CASTER;
 		break;
-	case WIZZARD:
+	case WIZARD:
 		manaCost = 4;
 		goldCost = 1;
 		attack = 6;
 		health = 3;
-		ability = "";
+		type = CLASS_CASTER;
 		break;
 	case MEDIC:
 		manaCost = 0;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "";
+		type = CLASS_SUPPORT;
 		break;
 	case PRIEST:
 		manaCost = 0;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "";
+		type = CLASS_CASTER;
 		break;
 	case SUMMONER:
 		manaCost = 3;
 		goldCost = 2;
 		attack = 5;
 		health = 3;
-		ability = "";
+		type = CLASS_CASTER;
 		break;
 	case PHALAX:
 		manaCost = 0;
 		goldCost = 4;
 		attack = 3;
 		health = 5;
-		ability = "Defender";
+		//ability = "Defender";
+		type = CLASS_INFANTRY;
 		break;
 	case MERCENARY:
 		manaCost = 0;
 		goldCost = 4;
 		attack = 3;
 		health = 7;
-		ability = "Defender|DecreaseIncome";
+		//ability = "Defender|DecreaseIncome";
+		type = CLASS_INFANTRY;
 		break;
 	case TACTICIAN:
 		manaCost = 0;
 		goldCost = 4;
-		attack = 4;
-		health = 3;
-		ability = "Defender";
+		attack = 3;
+		health = 6;
+		//ability = "Defender";
+		type = CLASS_SUPPORT;
 		break;
 	case FIRST_AID:
 		manaCost = 3;
 		goldCost = 0;
-		attack = -2;
-		health = 0;
-		ability = "";
+		attack = 0;
+		health = 2;
+		type = CLASS_SPELL;
 		break;
 	case PLAGUE:			//change
 		manaCost = 3;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "";
 		break;
 	case FIREBALL:
 		manaCost = 4;
 		goldCost = 0;
 		attack = 5;
 		health = 0;
-		ability = "";
+		type = CLASS_SPELL;
 		break;
 	case COMMAND_PROMOTE:
 		manaCost = 4;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "Promote";
+		//ability = "Promote";
+		type = CLASS_SPELL;
 		break;
 	case COMMAND_SHIELD:			//maybe change
 		manaCost = 4;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "Armor";
+		//ability = "Armor";
+		type = CLASS_SPELL;
 		break;
 	case COMMAND_SWORD:
 		manaCost = 4;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "Attack";
+		//ability = "Attack";
+		type = CLASS_SPELL;
 		break;
 	case COMMAND_VOLLEY:
 		manaCost = 3;
 		goldCost = 0;
 		attack = 1;
 		health = 0;
-		ability = "ALL";
+		//ability = "ATTACK ALL";
+		type = CLASS_SPELL;
 		break;
 	case RATS:				//change
 		manaCost = 0;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "";
 		break;
 	case BLESSING:
 		manaCost = 2;
 		goldCost = 0;
 		attack = -1;
 		health = 0;
-		ability = "Attack";
+		//ability = "Attack++";
+		type = CLASS_SPELL;
 		break;
 	case CHOSEN_ONE:			
 		manaCost = 6;
 		goldCost = 0;
 		attack = 0;
 		health = 0;
-		ability = "IMUNE|UNSTOPPABLE";
+		//ability = "IMUNE|UNSTOPPABLE";
+		type = CLASS_SPELL;
 		break;
 	case EARTHQUAKE:		
 		manaCost = 3;
 		goldCost = 0;
 		attack = 2;
 		health = 0;
-		ability = ""; //resources
+		//ability = ""; //resources
+		type = CLASS_SPELL;
 		break;
 	default:
+		active = 0;
 		break;
 	}
 
+	cardLayout = Layer::create();
+	addChild(cardLayout, 0, 10);
+	//cardLayout->setVisible(false);
 
+	if (active && type != CLASS_SPELL)
+	{
+		char txt[4];
+		sprintf(txt, "%d", health);
+		hpLabel = Label::createWithSystemFont(txt, "Kristen ITC", 24);
+		hpLabel->setPosition(Vec2(getContentSize().width * 0.78, getContentSize().height *0.57)); // should be 0.07
+		//hpLabel->setVisible(false);
+		cardLayout->addChild(hpLabel);
+
+		sprintf(txt, "%d", attack);
+		atkLabel = Label::createWithSystemFont(txt, "Kristen ITC", 24);
+		atkLabel->setPosition(Vec2(getContentSize().width * 0.2, getContentSize().height *0.59)); // should be 0.09
+		atkLabel->setTextColor(Color4B(81, 9, 45, 255));
+		//atkLabel->setVisible(false);
+		cardLayout->addChild(atkLabel);
+	}
+	if (type == CLASS_SPELL)
+	{
+		if (health > 0)
+		{
+			char txt[4];
+			sprintf(txt, "+%d", health);
+			hpLabel = Label::createWithSystemFont(txt, "Kristen ITC", 24);
+			hpLabel->setPosition(Vec2(getContentSize().width * 0.78, getContentSize().height *0.57)); // should be 0.07
+			addChild(hpLabel);
+		}
+	}
 	
 		
 	
 	// de facut switch cu case pt fiecare carte
 	//Edit phd 23/11/2016 ^^ WAS I CRAZY OR WHAT:D we need 1 file/each :)))
 	// 21/02/2017 ^^ Should, (not need). Let's hope we find a better ideea
+	// 27/02/2017 Stick to Switch, as on Client we only need atk and hp.
 	
 }
 
@@ -309,6 +356,7 @@ bool Card::isMouseOver(Vec2 p)
 void Card::enterScroll()
 {
 	Vector<SpriteFrame*> animFrames;
+	Vector<FiniteTimeAction*> actions;
 	SpriteFrame* frame;
 
 	char str[50] = { 0 };
@@ -331,13 +379,20 @@ void Card::enterScroll()
 	Animation * animation = Animation::createWithSpriteFrames(animFrames, 0.07);
 	Animate * animate = Animate::create(animation);
 	FadeIn * fadeIn = FadeIn::create(0.3);
-	cocos2d::Action* openScroll = Sequence::createWithTwoActions(fadeIn, animate);
+	CallFunc* showLayout = CallFunc::create([=]() {
+		this->getChildByTag(10)->setVisible(true);
+	});
+	actions.pushBack(fadeIn);
+	actions.pushBack(animate);
+	actions.pushBack(showLayout);
+	cocos2d::Action* openScroll = Sequence::create(actions);
 	runAction(openScroll);
 }
 
 void Card::exitScroll()
 {
 	Vector<SpriteFrame*> animFrames;
+	Vector<FiniteTimeAction*> actions;
 
 	char str[50] = { 0 };
 
@@ -355,10 +410,16 @@ void Card::exitScroll()
 	frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
 	animFrames.pushBack(frame);
 
+	CallFunc* hideLayout = CallFunc::create([=]() {
+		this->getChildByTag(10)->setVisible(false);
+	});
 	Animation * animation = Animation::createWithSpriteFrames(animFrames, 0.07);
 	Animate * animate = Animate::create(animation);
 	FadeOut * fadeOut = FadeOut::create(0.3);
-	cocos2d::Action* closeScroll = Sequence::createWithTwoActions(animate, fadeOut);
+	actions.pushBack(hideLayout);
+	actions.pushBack(animate);
+	actions.pushBack(fadeOut);
+	cocos2d::Action* closeScroll = Sequence::create(actions);
 	runAction(closeScroll);
 }
 
@@ -384,16 +445,24 @@ void Card::moveScroll(cocos2d::Vec2 pos)
 	animFrames.pushBack(frame);
 
 	Animation * animation = Animation::createWithSpriteFrames(animFrames, 0.07);
+	CallFunc* hideLayout = CallFunc::create([=]() {
+		this->getChildByTag(10)->setVisible(false);
+	});
 	Animate * animate = Animate::create(animation);
 	Animate * revAnimate = animate->reverse();
 	FadeOut * fadeOut = FadeOut::create(0.3);
 	MoveTo * move = MoveTo::create(0, pos);
 	FadeIn * fadeIn = FadeIn::create(0.3);
+	CallFunc* showLayout = CallFunc::create([=]() {
+		this->getChildByTag(10)->setVisible(true);
+	});
+	actions.pushBack(hideLayout);
 	actions.pushBack(animate);
 	actions.pushBack(fadeOut);
 	actions.pushBack(move);
 	actions.pushBack(fadeIn);
 	actions.pushBack(revAnimate);
+	actions.pushBack(showLayout);
 	cocos2d::Action* closeScroll = Sequence::create(actions);
 	runAction(closeScroll);
 }

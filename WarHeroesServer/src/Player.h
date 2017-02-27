@@ -28,7 +28,6 @@ class Player
 	//int gear
 
 	void Initialize();
-	void drawCards(int);
 	void placeVillager(int);
 	void loseHP(int);
 	bool isTurn();
@@ -38,10 +37,14 @@ class Player
 public:
 	Player(std::vector<int>*, SOCKET);
 	~Player();
+
 	int sendData(std::string&);
 	void readData();
 	std::string readCommand();
+
 	cardName drawCard();
+	void drawCards(int);
+
 	static Player * create(std::vector<int> * customDeck, SOCKET fd);
 };
 

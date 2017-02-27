@@ -113,8 +113,9 @@ bool GameScene::init()
 	_scheduler->schedule(schedule_selector(GameScene::mainLoop), this, 0, false);
 
 	char str[15];
+	//sprintf(str, "card_s_%d.png", KNIGHT);
 	sprintf(str, "card%d.png", NOCARD);
-	//sprintf(str, "card%d.png", /*pageNumber * 8 +*/ i); // the line above is for debug
+	//sprintf(str, "card%d.png", /*pageNumber * 8 +*/ i); // the lines above is for debug
 	Sprite *cardZoom = Sprite::create(str);//TODO : change it into class Card
 	cardZoom->setPosition(Vec2(winsize.width / 10.0, winsize.height / 2.0));
 	addChild(cardZoom, 5, NOCARD);
@@ -144,7 +145,8 @@ void GameScene::receiveData() //Thread function
 	// Now that I looked again, that is stupid :P
 
 	//std::lock_guard<std::mutex> * lock_server = new std::lock_guard<std::mutex>(mutexReadData);
-	std::string dataReceived(server->receiveData(), SERVER_COMMAND_LENGHT);
+	
+	std::string dataReceived = server->receiveData();
 	//delete lock_server;
 
 	std::lock_guard<std::mutex> lock_buffer(mutexLockString);
@@ -395,6 +397,7 @@ void GameScene::onMouseMoved(Event * event)
 		}
 
 		char str[15];
+		//sprintf(str, "card_s_%d.png", KNIGHT);
 		sprintf(str, "card%d.png", zoomCard);
 		((Sprite*)getChildByTag(NOCARD))->setTexture(str);
 		//TODO: make a Card::clone(zoomCard) function
