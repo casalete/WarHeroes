@@ -11,7 +11,7 @@ Card* Card::create(cardName cardID)
 {
 
 	std::stringstream ss;
-	ss << "Card" << cardID << ".png";
+	ss << "Card_S_" << cardID << ".png";
 	
 	std::string str = ss.str();
 	
@@ -309,13 +309,13 @@ void Card::cardInit()
 		char txt[4];
 		sprintf(txt, "%d", health);
 		hpLabel = Label::createWithSystemFont(txt, "Kristen ITC", 24);
-		hpLabel->setPosition(Vec2(getContentSize().width * 0.78, getContentSize().height *0.57)); // should be 0.07
+		hpLabel->setPosition(Vec2(getContentSize().width * 0.78, getContentSize().height *0.07)); // should be 0.07
 		//hpLabel->setVisible(false);
 		cardLayout->addChild(hpLabel);
 
 		sprintf(txt, "%d", attack);
 		atkLabel = Label::createWithSystemFont(txt, "Kristen ITC", 24);
-		atkLabel->setPosition(Vec2(getContentSize().width * 0.2, getContentSize().height *0.59)); // should be 0.09
+		atkLabel->setPosition(Vec2(getContentSize().width * 0.2, getContentSize().height *0.09)); // should be 0.09
 		atkLabel->setTextColor(Color4B(81, 9, 45, 255));
 		//atkLabel->setVisible(false);
 		cardLayout->addChild(atkLabel);
@@ -327,7 +327,7 @@ void Card::cardInit()
 			char txt[4];
 			sprintf(txt, "+%d", health);
 			hpLabel = Label::createWithSystemFont(txt, "Kristen ITC", 24);
-			hpLabel->setPosition(Vec2(getContentSize().width * 0.78, getContentSize().height *0.57)); // should be 0.07
+			hpLabel->setPosition(Vec2(getContentSize().width * 0.78, getContentSize().height *0.07)); // should be 0.07
 			addChild(hpLabel);
 		}
 	}
@@ -372,7 +372,7 @@ void Card::enterScroll()
 		animFrames.pushBack(frame);
 	}
 
-	sprintf(str, "Card%d.png", ID);
+	sprintf(str, "Card_S_%d.png", ID);
 	frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
 	animFrames.pushBack(frame);
 
@@ -396,7 +396,7 @@ void Card::exitScroll()
 
 	char str[50] = { 0 };
 
-	sprintf(str, "Card%d.png", ID);
+	sprintf(str, "Card_S_%d.png", ID);
 	SpriteFrame* frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
 	animFrames.pushBack(frame);
 
@@ -430,7 +430,7 @@ void Card::moveScroll(cocos2d::Vec2 pos)
 
 	char str[50] = { 0 };
 
-	sprintf(str, "Card%d.png", ID);
+	sprintf(str, "Card_S_%d.png", ID);
 	SpriteFrame* frame = SpriteFrame::create(str, Rect(Vec2(0, 0), getContentSize()));
 	animFrames.pushBack(frame);
 
